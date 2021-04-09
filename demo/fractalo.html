@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fractalo!</title>
+	<style type="text/css">
+		body,html,canvas{
+			padding: 0;
+			margin: 0;
+			width:100%;
+			height:100%;
+			overflow:hidden;
+		}
+		#controls{
+			position: fixed;
+			top:10px;
+			left:10px;
+			color:white;
+		}
+		input{
+			width:500px;
+		}
+	</style>
+</head>
+<body>
+	<div id="controls">
+		réels : <input id="a" type="range" min="-1" max="1" step="0.001" value="-0.835"/><br/>
+		imagi : <input id="b" type="range" min="-1" max="1" step="0.001" value="0.2321"/><br/>
+		zoom : <input id="z" type="range" min="0.2" max="4" step="0.001" value="3"/><br/>
+		<button id="b1">Animate over R</button><button id="b2">Animate over I</button><br/>
+		Valeurs cools :
+		<ul>
+			<li>0.3 + 0.5i</li>
+			<li>0.285 + 0.01i</li>
+			<li>-0.835 - 0.2321i</li>
+		</ul>
+	</div>
+	<canvas id="c"></canvas>
+</body>
+<script>
+	"use strict";
+	function _(e){return document.getElementById(e);}
+	var c = document.getElementById("c");
+	var g = c.getContext('2d');
+	const cw = 400;
+	const ch = 400;
+	c.width = cw;
+	c.height = ch;
+
+	const a = _("a");
+	const b = _("b");
+	const z = _("z")
+
+	const log = _("log");
+
+	var colors = []; // generate shades of red
+
+	for(var i = 0;i< 100;i++){
+		colors.push("hsla("+i*360/100+", 100%, 50%, 1.0)");
+	}
+
+	_("b1").addEventListener('click',function(){
+		for(var i = 0;i < 100000;i++){
+			setTimeout(function(i){
+				a.value = i/50000 - 1;
+			},i,i);
+		}
+	});
+	_("b2").addEventListener('click',function(){
+		for(var i = 0;i < 100000;i++){
+			setTimeout(function(i){
+				b.value = i/50000 - 1;
+			},i,i);
+		}
+	})
+
+	const cl = colors.length;
+
+	var i,j,av,bv,zoom;
+
+	var ipart = 0;
+	var rpart = 0;
+	var ipart2 = 0;
+	var rpart2 = 0;
+	var ccount = 0;
+
+	function draw(){
+		requestAnimationFrame(draw);
+		if(av != parseFloat(a.value) || bv != parseFloat(b.value) || zoom != parseFloat(z.value)){
+			av = parseFloat(a.value);
+			bv = parseFloat(b.value);
+			zoom = parseFloat(z.value);
+
+			for(i = -cw/2;i < cw/2;i++){
+				for(j = -ch/2;j < ch/2;j++){
+					ipart = i * zoom / cw;
+					rpart = j * zoom / ch;
+					ccount = 0;
+
+					ipart2 = ipart * ipart;
+					rpart2 = rpart * rpart;
+
+					while(ipart2 + rpart2 < 4 && ccount < cl){
+						ipart = 2 * ipart * rpart + av;
+						rpart = rpart2 - ipart2 + bv;
+
+						ipart2 = ipart * ipart;
+						rpart2 = rpart * rpart;
+
+						ccount ++;
+					}
+					g.fillStyle = colors[ccount % cl];
+					g.fillRect(i+cw/2,j+ch/2,1,1); // TODO replace by createImageData stuff
+				}
+			}
+		}
+	}
+	draw();
+</script>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Game Of Life</title>
+	<style>
+	body,html,canvas{
+		overflow:hidden;
+		width:100%;
+		height:100%;
+		padding:0;
+		margin:0;
+	}
+	</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+</body>
+<script>
+var c = document.getElementById("c");
+var g = c.getContext("2d");
+
+const w = 1280;
+const h = 720;
+const gridcountX = 128;
+const gridcountY = 72;
+
+c.width = w;
+c.height = h;
+var cellsize = c.width / gridcountX;
+
+function draw(){
+	requestAnimationFrame(draw);
+
+	g.clearRect(0,0,w,h);
+
+	// draw grid
+	var i,j;
+	for(i = 0;i < gridcountY;i++){
+		g.fillRect(0,i * cellsize,w,1);
+	}
+	for(i = 0;i < gridcountX;i++){
+		g.fillRect(i * cellsize,0,1,h);
+	}
+	for(i = 0;i < gridcountX;i++){
+		for(j = 0;j < gridcountY;j++){
+			if(world[i][j]){
+				g.fillRect(i * cellsize,j * cellsize,cellsize,cellsize);
+			}
+		}
+	}
+
+}
+
+
+var world = [];
+var world2 = [];
+var i,j;
+
+for(i = 0;i < gridcountX;i++){
+	world.push([]);
+	world2.push([]);
+	for(j = 0;j < gridcountY;j++){
+		world[i].push(Math.random() > 0.5);
+		world2[i].push(world[i][j]);
+	}
+}
+
+function countNeighbours(i,j){
+	let n = 0;
+	if(world[i+1] !== undefined){
+		if(world[i+1][j+1]) n++;
+		if(world[i+1][j]) n++;
+		if(world[i+1][j-1]) n++;
+	}
+	if(world[i][j+1]) n++;
+
+	if(world[i-1] !== undefined){
+		if(world[i-1][j+1]) n++;
+		if(world[i-1][j]) n++;
+		if(world[i-1][j-1]) n++;
+	}
+	if(world[i][j-1]) n++;
+
+	return n;
+}
+
+
+setInterval(function(){
+	// do a generation
+	for(i = 0;i < gridcountX;i++){
+		for(j = 0;j < gridcountY;j++){
+			if(countNeighbours(i,j) < 2 || countNeighbours(i,j) > 3) // cell dies
+				world2[i][j] = false;
+			if(countNeighbours(i,j) == 3) // new cell
+				world2[i][j] = true;
+			if(countNeighbours(i,j) == 2) // no changes
+				world2[i][j] = world[i][j];
+		}
+	}
+	// copy world2 to world
+	for(i = 0;i < gridcountX;i++){
+		for(j = 0;j < gridcountY;j++){
+			world[i][j] = world2[i][j];
+		}
+	}
+
+
+},50);
+
+
+draw();
+
+</script>
+</html>

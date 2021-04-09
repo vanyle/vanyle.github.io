@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Cute</title>
+		<meta charset="utf8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			html,body{
+			  background-color: #fff;
+			  width: 100%;
+			  padding:0;
+			  margin:0;
+			  z-index:-1;
+			}
+			*{
+				position: relative;
+				box-sizing: border-box;
+			}
+			.background{
+				position: fixed;
+				top:0px;
+				left:0px;
+				width: 100%;
+				height: 100%;
+				z-index:-1;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="bg" width="1280" height="720" class='background'></canvas>
+	</body>
+	<script>
+		"use strict";
+		// bg handler
+		function _(e){return document.getElementById(e)};
+		function pick(a){return a[Math.floor(Math.random()*a.length)]};
+		function next(index,array){return array[index+1>=array.length ? 0 : index + 1]}
+		function closer(from,to,dist){return [from[0]+(to[0] - from[0]) * dist,from[1]+(to[1] - from[1]) * dist];}
+		function squaredist(p1,p2){return (p1[0]-p2[0])*(p1[0]-p2[0]) + (p1[1]-p2[1])*(p1[1]-p2[1]);}
+		function copy(a){return JSON.parse(JSON.stringify(a));}
+		function nearest(point,array){
+			var ind = 0;
+			var val = Infinity,nv;
+			for(var i = 0;i < array.length;i++){
+				nv = squaredist(array[i],point);
+				if(nv < val){
+					val = nv;
+					ind = i;
+				}
+			}
+			return ind;
+		}
+
+		var c = _('bg');
+		c.width = innerWidth;
+		c.height = innerHeight;
+		var g = c.getContext('2d');
+		var bg = "#333";
+
+		const ptsnumber = 6;
+		const size = 300;
+
+		var pts = [];
+
+		for(var i = 0;i < ptsnumber;i++){
+			pts.push([Math.cos(i/ptsnumber*2*Math.PI)*size,Math.sin(i/ptsnumber*2*Math.PI)*size]);
+		}
+
+		var linebuffer = generatePattern(copy(pts),1000);
+
+		draw();
+
+		function draw(){
+			requestAnimationFrame(draw);
+			c.width = innerWidth;
+			c.height = innerHeight;
+
+			g.fillStyle = bg;
+			g.fillRect(0,0,c.width,c.height);
+
+			g.strokeStyle = 'white';
+
+			for(var i = 0;i < linebuffer.length;i++){
+				g.beginPath();
+				for(var j = 0;j < linebuffer[i].length;j++){
+					g.lineTo(linebuffer[i][j][0]+c.width/2,linebuffer[i][j][1]+c.height/2);
+				}
+				g.lineTo(linebuffer[i][0][0]+c.width/2,linebuffer[i][0][1]+c.height/2);
+				g.stroke();
+			}
+		}
+		function generatePattern(start,max){ // get pts write in linebuffer
+			var result = [];
+			var buffer = [];
+			var prox = 0;
+			while(result.length < max){
+				buffer = [];
+				for(var i = 0;i < start.length;i++){
+					buffer.push([start[i][0],start[i][1]]);
+					prox = i/start.length;
+					start[i] = closer(start[i],next(i,start),0.1);
+				}
+				result.push(buffer);
+			}
+			return result;
+		}
+
+		var mousedown = false;
+
+		addEventListener("mousedown", function(){
+		    mousedown = true;
+		}, false);
+		addEventListener("mouseup", function(){
+		    mousedown = false;
+		}, false);
+		var coor;
+		addEventListener('mousemove',function(e){
+			if(mousedown){
+				coor = [e.clientX-c.width/2,e.clientY-c.height/2];
+				pts[nearest(coor,pts)] = coor;
+				linebuffer = generatePattern(copy(pts),500);
+			}
+		});
+
+	</script>
+</html>

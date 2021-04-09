@@ -1,1 +1,68 @@
-Hello, world.
+<!DOCTYPE html>
+<html>
+<head>
+	<title>vanyle</title>
+	<meta charset="utf8"/>
+	<link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body>
+	<header>
+		<span>Antoine Delègue - Vanyle</span>
+	</header>
+	<div id="scroll" class='scroll'>
+		<div class='screen title' id='top'>
+			<h1>Antoine Delègue - Some HTML projects I made</h1>
+			<div class='downarrow click' data-go='presentation'></div>
+		</div>
+		<div class='screen' id='presentation'>
+			<h2>Interactive animations</h2>
+			<div class='prettylink'><a href="demo/neuraldoc_fancy.html">Interactive animation about Neural networks (in english)</a></div>
+			<div class='prettylink'><a href="demo/flux.html">Interactive animation about vector fields (in french)</a></div>
+		</div>
+		<div class='screen' id='presentation'>
+			<h2>Games and solvers</h2>
+			<div class='prettylink'><a href="demo/sudoku.html">Sudoku solver (by brute force)</a></div>
+			<div class='prettylink'><a href="demo/gameoflife.html">Game of life implementation</a></div>
+			<div class='prettylink'><a href="demo/texts.html">autological word renderer</a></div>
+		</div>
+		<div class='screen' id='presentation'>
+			<h2>Simulation and Rendering</h2>
+			<div class='prettylink'><a href="demo/cube.html">A rotating cube, drawn with a custom mini 3d rendering engine</a></div>
+			<div class='prettylink'><a href="demo/outerspace.html">Gravity simulation</a></div>
+			<div class='prettylink'><a href="demo/physics.html">Bouncing ball simulation</a></div>
+			<div class='prettylink'><a href="demo/projectile.html">Projectile simulation</a></div>
+			<div class='prettylink'><a href="demo/ode.html">ODE visualization (in phase space)</a></div>
+			<div class='prettylink'><a href="demo/fractalo_2.html">Self-repeating fractal renderer</a></div>
+			<div class='prettylink'><a href="demo/fractalo.html">Julia-set renderer</a></div>
+		</div>
+		<footer class='screen'>
+			<h2>vanyle / Antoine, 2020</h2>
+		</footer>
+	</div>
+	<script>
+		function _(e){return document.getElementById(e)}
+		function e(event,selector,callback){
+			addEventListener(event,function(e){
+				var t = e.target;
+				while(t !== null){
+					if(t.matches(selector)){
+						callback(t);
+					}
+					t = t.parentElement;
+				}
+			});
+		}
+
+		e('click','[data-go]',function(t){
+			var elOff = _(t.getAttribute('data-go')).offsetTop;
+			var dist = elOff - _('scroll').scrollTop;
+			console.log(dist);
+			for(var i = 0;i <  100;i++){
+				setTimeout(function(){
+					_('scroll').scrollTop += dist/100;
+				},i*3)
+			}
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Neural networks</title>
+		<meta charset="utf8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			body,html{
+				padding:0;
+				margin:0;
+				font-family: Arial, Helvetica, sans-serif;
+			}
+			.center{
+				text-align: center;
+			}
+			h1,h2,h3{
+				padding:10px;
+				margin:0px;
+			}
+			section{
+				border-top:1px solid #333;
+				padding:10px;
+			}
+			canvas{
+				display: block;
+				margin:auto;
+				border:1px solid black;
+				width:30vw;
+			}
+			.small{
+				width:20vw;
+			}
+			.smaller{
+				width:10vw;
+			}
+			.control{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			button{
+				padding:10px;
+				border:none;
+				outline:none;
+				box-shadow: 1px 1px 3px 0px black;
+				margin:10px;
+			}
+			input[type=text],input[type=number]{
+				margin:10px;
+				padding:10px;
+				box-shadow: 1px 1px 3px 0px black;
+				border:none;
+				outline:none;
+			}
+			button:hover{
+				box-shadow: 1px 1px 5px 0px black;
+			}
+		</style>
+	</head>
+	<body>
+		<h1 class='center'>A basic introduction to neural networks</h1>
+		<section> <!-- Section 1 : Introduction -->
+			<h2>Introduction</h2>
+			<p>
+				First, let's define a neural network : It's a group of neurons connected to one another that takes one or more input and returns one or more outputs.<br/>
+				You can model a neural network as some kind of function.<br/>
+				The neural network that we will study here are made out of layers. Each layer contains neurons. The neurons inside a layer are not connected.<br/>
+				Each layer is a smaller network that is processing the information in it's own way. The first layer applies a first simple process, the second layer
+				makes a more complex analysis and so on.
+			</p>
+		</section>
+
+		<section> <!-- Section 2 : The purpose of neural networks -->
+			<h2>The purpose of neural networks</h2>
+			<p>
+				Usually, neural network are used to accomplish complex task that are not suited for a computer : Image recognition, Voice analysis ...<br/>
+				The strengh of neural network is their ability to "evolve" : You can modify a neural network so that it give slightly different answer. Then,
+				you can test if your neural network is more efficient than previously and repeat. That way, the neural network will be improving itself over time.
+				Given enough time to train and a good "teacher" (a function that evaluates the performances of the network), this kind of program can do anything.<br/>
+				Let's dive in and see precisely how they work.
+			</p>
+		</section>
+
+		<section> <!-- Section 3 : How a neuron works -->
+			<h2>How a neuron works ?</h2>
+			<canvas id="c1" width="1000" height="1000"></canvas>
+			<div class='control'>
+				<input id="in1" type="number" placeholder="Input 1" value="1"/>
+				<input id="in2" type="number" placeholder="Input 2" value="3"/>
+				<button id="testn1">Test</button>
+			</div>
+			<h3>A quick explanation of what is happening :</h3>
+			<p>
+				We initialize the network (With 1 and 3 for example):
+				<ul>
+					<li>We reset the value of all neurons</li>
+					<li>The neuron L1N1 (The first neuron of the first layer) contains 3.</li>
+					<li>L1N2 (The second neuron of the first layer) contains 1.</li>
+					<li>The weight of L1N1 and L1N2 are set to 1</li>
+					<li>The connection weights of L1N1 and L1N2 are set to 0.5</li>
+				</ul>
+				So the result of the networks is :
+				<pre> 
+					(1*1*0.25) + (3*1*0.75) = 0.25 + 2.25 = 2.5 
+				</pre>
+				General formula to compute the value of the first neuron of a layer based on the entering connections :
+				<pre> 
+					StartValue + (n1_value * n1_weight * n1_connection_1) + (n2_value * n2_weight * n2_connection_1) + (n3_value * n3_weight * n3_connection_1) + ...
+				</pre>
+				The code used to generate the network :
+			</p>
+			<pre data-paste="network1"></pre>
+		</section>
+
+		<section> <!-- Section 4 : A more complex example -->
+			<h2>A more complex network example</h2>
+			<canvas id="c2" width="1000" height="1000"></canvas>
+			<div class='control'>
+				<button id="testn2">Test for {4,5,6,1,4}</button>
+				<button id="randomizen2">Randomize</button>
+			</div>
+			<p>
+				Networks can be a lot more complex than what we've just seen : This network take 5 inputs and gives back 4 answers.<br/>
+				Here, the weight of each neuron and the weights of his connections are random to make things even more interesting.<br/>
+				The code used to generate the network :
+			</p>
+			<pre data-paste="network2"></pre>
+		</section>
+
+		<section> <!-- Section 5 : The behaviour of a simple neuron given 2 outputs -->
+			<h2>The behaviour of a simple neuron given 2 outputs</h2>
+			<p>
+				We will now draw the results of a neural network given 2 outputs to show how powerfull a neuron is.
+				<ul>
+					<li>The 2 inputs will be render as coordinates in a plane</li>
+					<li>The output will be the color of the point at thoses coordinates</li>
+					<li>The properties of the network will be customizable</li>
+				</ul>
+				The result : (The coordinates goes from bottom (0) to top (100) and from left (0) to right (100))
+			</p>
+			<canvas id="c4_2" width="1000" height="1000" class="small"></canvas><br/>
+			<canvas id="c4_1" width="1000" height="1000" class="smaller"></canvas><br/>
+			<div class='control'>
+				<span>Value of the first weight : </span>
+				<input id="v1r" type="range" min="-2" max="2" step="0.1"/>
+			</div>
+			<div class='control'>
+				<span>Value of the second weight : </span>
+				<input id="v2r" type="range" min="-2" max="2" step="0.1"/>
+			</div>
+			<p>
+				We can see that just by changing 2 parameters, the neural network can process quite complex patterns.<br/>
+				Here are some remarquable cases :
+				<ul>
+					<li>1 ; 1 is a+b</li>
+					<li>1 ; -1 is a-b</li>
+					<li> -1 ; 1 is b-a</li>
+					<li> 1 ; 0 is only a</li>
+					<li> 0 ; 1 is only b</li>
+					<li> 2 ; -2 is (a-b)*2</li>
+				</ul>
+				That's already quite a lot of models that our network can simulate.<br/>
+				With more neurons, even more patterns can be analysed.<br/>
+				The code as usual :
+			</p>
+			<pre data-paste="network4"></pre>
+		</section>
+
+		<section> <!-- Section 6 : A robot trying to grab apples -->
+			<h2>A robot trying to grab apples</h2>
+			<p>
+				Let's try to train our network with a simple task : collecting apples in a field (green dots)<br/>
+				Ok, let's define the problem more precisely : 
+				<ul>
+					<li>The robot (red dots) is wandering through a field of apples (green dots)</li>
+					<li>Each time the robot is near an apple he collects it</li>
+					<li>To makes things harder, the robot can only see the world as one line (robot vision is displayed below the 2d view)</li>
+					<li>At each tick, the robot makes a decision (forward / turn left / turn right) based only on what he is currenlty seeing</li>
+					<li>After 1000 ticks, the robot stops. His score (fitness) is how much apples he collected</li>
+				</ul>
+				Now, we need to figure out a way to generate a network that is adapted to this task.
+				We'll test 3 different networks :
+				<ul>
+					<li>A simple randomly generated network</li>
+					<li>The best network among a hundred randomly generated networks</li>
+					<li>The best network of a generation of neural networks generated from a modify version of previous network (evolutionary algorithm)</li>
+				</ul>
+			</p>
+			<canvas id="c3_1" width="1000" height="1000"></canvas><br/>
+			<p>Above, a visualization of what the robot sees and the 2d world. Below, the brain of the robot</p>
+			<canvas id="c3_2" width="1000" height="1600" class="small"></canvas>
+			<div class="control">
+				<button id="random_net">Use a random network</button>
+				<button id="bestg1_net">Use the best generation 1 network</button>
+				<button id="bestgn_net">Process a new generation and Use it best network</button>
+			</div>
+			<p>
+				Results :<br>
+				<ul>
+					<li>The random networks have usualy bad scores, which make sense</li>
+					<li>The second network is better</li>
+					<li>The third is generally the best</li>
+				</ul>
+				The code is more complicated because we need to render the world. The neural network part is at the bottom.
+			</p>
+			<pre data-paste="network3"></pre>
+		</section>
+
+		<section> <!-- Section 7 : A robot painter ! -->
+			<h2>A robot painter !</h2>
+			<p>
+				Work in progress. Just a fancy gradient generator for now.
+			</p>
+			<canvas id="c5" width="1000" height="1000"></canvas>
+			<div class='control'>
+				<button id="regennet5">Regenerate the network</button>
+			</div>
+			<pre data-paste="network5">
+
+			</pre>
+		</section>
+
+		<section> <!-- Credits -->
+			<h2>Credits</h2>
+			<p>
+				Made by vanyle (2017) in javascript, Feel free to reuse the code.<br/>
+				The code to create networks is below.
+			</p>
+		</section>
+
+		<section> <!-- Final section : The code -->
+			<h2>The code used to generated all thoses networks</h2>
+			<pre data-paste="mainlib"></pre>
+		</section>
+	</body>
+	<script data-copy="mainlib">
+		(function(){
+			"use strict";
+			function _(e){return document.getElementById(e);}
+
+			// create a neuron handler
+
+			function round(n,precision){
+				var p = Math.pow(10,precision);
+				return Math.round(n*p) / p;
+			}
+
+			function Neuron(connectionsize){
+				this.weight = 0;
+				this.value = 0;
+				this.connectionweights = [];
+				this.coprogress = [];
+				for(var i = 0;i < connectionsize;i++){
+					this.connectionweights.push(0);
+					this.coprogress.push(0) // used for display only
+				}
+			}
+			Neuron.prototype.randomize = function(){
+				this.weight = Math.random();
+				for(var i = 0;i < this.connectionweights.length;i++){
+					this.connectionweights[i] = Math.random();
+				}
+			}
+			function Layer(neuroncount,nextlayercount){
+				this.neurons = [];
+				for(var i = 0;i < neuroncount;i++){
+					this.neurons.push(new Neuron(nextlayercount)); // the neuron is hooked up to the next layer
+				}
+			}
+			function Network(sourcesize,layerdata,outputsize){
+				this.source = [];
+				this.output = [];
+				this.status = "Waiting for input...";
+
+				// Graphics settings
+				this.showStatus = true;
+				this.textSize = 50;
+				this.labelSize = 20;
+				this.nodeSize = 120;
+				this.padding = 50;
+				this.layerPadding = 100;
+				this.signalSize = 7;
+				this.animateSpeed = 500;
+
+				for(var i = 0;i < sourcesize;i++){
+					this.source.push(0);
+				}
+				for(var i = 0;i < outputsize;i++){
+					this.output.push(0);
+				}
+				this.layers = [];
+				this.layers.push(new Layer(this.source.length,layerdata[0] || this.output.length));
+
+				for(var i = 0;i < layerdata.length;i++){
+					if(i !== layerdata.length-1)
+						this.layers.push(new Layer(layerdata[i],layerdata[i+1]));
+					else
+						this.layers.push(new Layer(layerdata[i],this.output.length));
+				}
+			}
+
+			Network.prototype.randomize = function(){
+				this.map(function(n){
+					n.randomize();
+				});
+			}
+			/**
+				Apply f to all neurons inside the network.
+				ex : network.map(function(n,layerpos,neuronpos){n.randomize()});
+			*/
+			Network.prototype.map = function(func){
+				var i,j;
+				for(i = 0;i < this.layers.length;i++){
+					for(j = 0;j < this.layers[i].neurons.length;j++){
+						func(this.layers[i].neurons[j],i,j);
+					}
+				}
+			}
+			Network.prototype.evolve = function(input,expected,evolveRate){
+				var current = this.feed(input);
+				var distCurrent = this.arrayDistance(current,expected);
+				var edit;
+
+				this.map(function(){
+					edit = this.feed(input);
+					if(this.arrayDistance(current,expected) > distCurrent && Math.random() < evolveRate){ // network is now worst
+
+					}
+				});
+			}
+			/**
+				Returns how similar are 2 integer arrays of same length
+			*/
+			Network.prototype.arrayDistance = function(array1,array2){
+				var s = 0;
+				for(var i = 0;i < array1.length;i++){
+					s += Math.pow(array1[i] - array2[i],2)
+				}
+				return Math.sqrt(s);
+			}
+			Network.prototype.mutate = function(mutationStrength,mutationRate){
+				this.map(function(n){
+					if(Math.random() < mutationRate)
+						n.weight += (Math.random()-0.5) * mutationStrength;
+					for(var i = 0;i < n.connectionweights.length;i++){
+						if(Math.random() < mutationRate)
+							n.connectionweights[i] += (Math.random()-0.5) * mutationStrength;
+					}
+				});
+			}
+			Network.prototype.feed = function(data){
+				this.clear();
+				if(data.length === this.source.length){
+					this.source = data;
+				}
+				var i,j,k,v = 0;
+				this.status = "Processing input ...";
+				// fill first layer with source
+				for(i = 0;i < this.layers[0].neurons.length;i++){
+					this.layers[0].neurons[i].value = data[i];
+				}
+				for(i = 0;i < this.layers.length;i++){
+					for(j = 0;j < this.layers[i].neurons.length;j++){
+						for(k = 0;k < this.layers[i].neurons[j].connectionweights.length;k++){
+							v = this.layers[i].neurons[j].value * this.layers[i].neurons[j].weight * this.layers[i].neurons[j].connectionweights[k];
+							this.addValue(i+1,k,v)
+						}
+					}
+				}
+				this.status = "Waiting for input...";
+				return this.output;
+			}
+			Network.prototype.slowfeed = function(data){
+				this.clear();
+				this.status = "Filling input";
+				if(data.length === this.source.length){
+					this.source = data;
+				}
+				// fill first layer with source
+				for(i = 0;i < this.layers[0].neurons.length;i++){
+					this.layers[0].neurons[i].value = data[i];
+				}
+
+				var i,j,k,c = 0,v = 0;
+				for(i = 0;i < this.layers.length;i++){
+					for(j = 0;j < this.layers[i].neurons.length;j++){
+						for(k = 0;k < this.layers[i].neurons[j].connectionweights.length;k++){
+							c++;
+							(function(i,j,k,ccurr,net){
+								setTimeout(function(){
+									net.animateSignal(i,j,k,net.animateSpeed/2);
+								},(ccurr+0.5)*net.animateSpeed);
+								setTimeout(function(){
+									net.status = "Processing layer "+(i+2);
+									if(i+1 >= net.layers.length){
+										net.status = "Processing output";
+									}
+									v = net.layers[i].neurons[j].value * net.layers[i].neurons[j].weight * net.layers[i].neurons[j].connectionweights[k];
+									net.addValue(i+1,k,v);
+									if(c == ccurr){ // done.
+										net.status = "Waiting for input..."
+									}
+								},(ccurr+1)*net.animateSpeed);
+							})(i,j,k,c,this);
+						}
+					}
+				}
+				return this.output;
+			}
+			Network.prototype.animateSignal = function(layerpos,neuronpos,connectionpos,duration){
+				this.layers[layerpos].neurons[neuronpos].coprogress[connectionpos] = 0;
+				for(var i = 0;i < 30;i++){
+					(function(i,net){
+						setTimeout(function(){
+							net.layers[layerpos].neurons[neuronpos].coprogress[connectionpos] = i/30;
+						},i*duration/30);
+					})(i,this);
+				}
+			}
+			Network.prototype.clear = function(){ // set the value of all nodes to 0
+				for(var i = 0;i < this.output.length;i++){
+					this.output[i] = 0;
+				}
+				this.map(function(n){n.value = 0;});
+			}
+			Network.prototype.addValue = function(layerpos,neuronpos,value){
+				if(layerpos < 0){
+					this.source[neuronpos] += value;
+					return;
+				}
+				if(layerpos >= this.layers.length){
+					this.output[neuronpos] += value;
+					return;
+				}
+				this.layers[layerpos].neurons[neuronpos].value += value;
+			}
+			Network.prototype.layerWidth = function(layerpos){ // works for source (-1) and output (layers.length)
+				return layerpos < 0 ? this.source.length : (
+					layerpos >= this.layers.length ? this.output.length : this.layers[layerpos].neurons.length );
+			}
+			/**
+				Returns the position of the center of a neuron given his layer and his position in this layer.
+			*/
+			Network.prototype.neuronPos = function(layerpos,neuronpos,canvas){
+				return [
+					this.padding + this.nodeSize/2 + (layerpos-this.layers.length/2-0.5)*(this.nodeSize + this.layerPadding) + canvas.width/2, // x
+					(this.nodeSize + this.padding)*(neuronpos - this.layerWidth(layerpos)/2) + this.padding + 
+					this.nodeSize/2 + canvas.height/2]; // y
+			}
+			Network.prototype.draw = function(canvas){
+				var g = canvas.getContext("2d");
+				g.fillStyle = "white";
+				g.fillRect(0,0,canvas.width,canvas.height);
+				g.fillStyle = "black";
+				g.font = this.textSize+"px serif";
+				g.textAlign = "center";
+				g.lineWidth = 1;
+				var i = 0,j = 0,k = 0,neuronpos,neuronpos2;
+
+				for(i = 0;i < this.layers.length;i++){ // draw neurons
+					for(j = 0;j < this.layers[i].neurons.length;j++){
+						neuronpos = this.neuronPos(i,j,canvas);
+
+						// draw connections / synapse
+						var layerw = this.layerWidth(i+1);
+						for(k = 0;k < layerw;k++){
+							neuronpos2 = this.neuronPos(i+1,k,canvas);
+							g.beginPath();
+							g.moveTo(neuronpos[0],neuronpos[1]);
+							g.lineTo(neuronpos2[0],neuronpos2[1]);
+							g.stroke();
+
+							g.beginPath();
+							g.arc(
+								neuronpos[0] + (neuronpos2[0]-neuronpos[0])*this.layers[i].neurons[j].coprogress[k],
+								neuronpos[1] + (neuronpos2[1]-neuronpos[1])*this.layers[i].neurons[j].coprogress[k],
+								this.signalSize,0,Math.PI*2);
+							g.fill();
+
+							g.font = this.labelSize+"px serif";
+							g.fillText(round(this.layers[i].neurons[j].connectionweights[k],2), // draw connection values
+								neuronpos[0] + (neuronpos2[0]-neuronpos[0])/2,
+								neuronpos[1] + (neuronpos2[1]-neuronpos[1])/2 - this.textSize/5
+							);
+							g.font = this.textSize+"px serif";
+						}
+
+						g.fillStyle = "white"; // generate white background
+						g.beginPath();
+						g.arc(neuronpos[0],neuronpos[1],this.nodeSize/2,0,Math.PI*2)
+						g.fill();
+						g.beginPath(); // draw neuron circle
+						g.arc(neuronpos[0],neuronpos[1],this.nodeSize/2,0,Math.PI*2)
+						g.stroke();
+						g.fillStyle = "black";
+						g.fillText(round(this.layers[i].neurons[j].value,2),neuronpos[0],neuronpos[1] + this.textSize/3);
+						g.font = this.labelSize+"px serif";
+						g.fillText(round(this.layers[i].neurons[j].weight,2),neuronpos[0],neuronpos[1] - this.nodeSize/2);
+						g.font = this.textSize+"px serif";
+					}
+				}
+				// displaying output
+				for(i = 0;i < this.output.length;i++){
+					neuronpos = this.neuronPos(this.layers.length,i,canvas);
+					g.fillStyle = "white";
+					g.fillRect(neuronpos[0] - this.nodeSize/2,
+								neuronpos[1] - this.nodeSize/2,
+								this.nodeSize,this.nodeSize);
+					g.strokeRect(neuronpos[0] - this.nodeSize/2,
+								neuronpos[1] - this.nodeSize/2,
+								this.nodeSize,this.nodeSize);
+					g.fillStyle = "black";
+					g.fillText(round(this.output[i],2),neuronpos[0],neuronpos[1] + this.textSize/3);
+				}
+				if(this.showStatus){
+					g.fillText(this.status,canvas.width/2,this.textSize);
+				}
+
+			}
+			window.Network = Network;
+		})();
+	</script>
+	<script data-copy="network1">
+		(function(){ // closure for cleaner code
+			"use strict";
+			var c = document.getElementById("c1"); // canvas id
+			var in1 = document.getElementById("in1");
+			var in2 = document.getElementById("in2");
+			var net = new Network(2,[],1); // create a network with 2 inputs and 1 output
+			net.animateSpeed = 600; // slow down animation
+			net.labelSize = 30; // bigger labels
+			net.map(function(n){ // quick network init
+				n.weight = 1;
+			});
+			net.layers[0].neurons[0].connectionweights[0] = 0.25;
+			net.layers[0].neurons[1].connectionweights[0] = 0.75;
+
+			document.getElementById('testn1').addEventListener('click',function(){ // called on button press
+				if(!isNaN(in1.value) && !isNaN(in2.value))
+					net.slowfeed([in1.value,in2.value]); // slow feed animates the network
+			});
+
+			function draw(){
+				requestAnimationFrame(draw); // refresh the network at 60fps
+				net.draw(c);
+			}
+			draw();
+		})();
+	</script>
+	<script data-copy="network2">
+		(function(){
+			"use strict";
+			var c = document.getElementById("c2");
+			var net = new Network(5,[4,3,5],4); // create a network with 5 inputs, 4 outputs and 3 inner layers
+			net.animateSpeed = 100; // fast animation
+			net.randomize(); // randomize weights
+
+			document.getElementById('testn2').addEventListener('click',function(){
+				net.slowfeed([4,5,6,1,4]);
+			});
+			document.getElementById('randomizen2').addEventListener('click',function(){
+				net.randomize();
+			});
+			function draw(){
+				requestAnimationFrame(draw);
+				net.draw(c);
+			}
+			draw();
+		})();
+	</script>
+	<script data-copy="network3">
+		(function(){
+			"use strict";
+			function initWorld(pcount){ // place randomly pcount apples in the world
+				world = [];
+				for(var i = 0;i < pcount;i++){
+					world.push([Math.random(),Math.random()]);
+				}
+			}
+			function distance(p1,p2){ // euclidian distance between p1 and p2
+				return Math.sqrt(Math.pow(p1[0] - p2[0],2) + Math.pow(p1[1] - p2[1],2));
+			}
+			function ATan2(x,y){ // used to map a 2d plan onto a line
+				if(x > 0 || y !=  0){
+						return 2*Math.atan(y/(distance([x, y],[0,0]) + x));
+				}else{
+					return Math.PI;
+				}
+			}
+			function Pvision(){ // converts 2d into 1d (sort of 3d engine)
+				var listdata = [],i,ppx,ppy,norm,currRot,fakeposx,fakeposy,dist,wrange,zonerange;
+
+				for(i = 0; i < world.length; i++){
+				//Compute new coords of a given point base on the player's rotation
+				ppx = world[i][0];
+				ppy = world[i][1];
+				if(ppy != py){ // Avoid 1/0
+				norm = distance([px, py], [ppx, ppy]);
+				currRot = ATan2(ppx - px, ppy - py); // this function is native in javascript but not in mathematica. pffff
+				fakeposx = Math.cos(currRot - prot) * norm + px;
+				fakeposy = Math.sin(currRot - prot) *norm + py;
+				if(fakeposx > px){
+					dist = fakeposx - px;
+					wrange = dist*fovConstant;
+					zonerange = ( py - fakeposy)*2/wrange;
+					if(zonerange <= 1 && zonerange >= -1){
+						listdata.push(zonerange);
+					}
+				}
+				}
+				}
+				return listdata;
+			}
+			function translateData(listdata){ // converts the data into an array of 7 booleans
+				var result = [],i,j;
+				for(i = 0;i < 6;i++){
+					result.push(false);
+					for(j = 0;j < listdata.length;j++){
+						if(listdata[j] > -1 + i/3 && listdata[j] < -1 + (i+1)/3 ){
+							result[i] = true;
+							break;
+						}
+					}
+				}
+				result.push(true); // result[7] is always true.
+				return result;
+			}
+			function disk(x,y,r){
+				g.beginPath();
+				g.arc(x*1000,y*1000,r,0,Math.PI*2);
+				g.fill();
+			}
+			function render(){
+				requestAnimationFrame(render);
+
+				var i;
+
+				g.clearRect(0,0,1000,1000);
+				g.font = "30px sans-serif";
+				g.textAlign = "center";
+				g.fillStyle = "lime";
+				for(i = 0;i < world.length;i++){
+					disk(world[i][0],world[i][1],5);
+				}
+				g.fillStyle = "red";
+				g.strokeStyle = "red";
+				disk(px,py,5);
+				g.beginPath();
+				g.moveTo(px*1000,py*1000);
+				g.lineTo(px*1000 +Math.cos(prot)*20,py*1000+ Math.sin(prot)*20);
+				g.moveTo(px*1000,py*1000);
+				g.lineTo(px*1000+Math.cos(prot- fovAngle)*20,py*1000+ Math.sin(prot - fovAngle)*20);
+				g.moveTo(px*1000,py*1000);
+				g.lineTo(px*1000 +Math.cos(prot + fovAngle)*20,py*1000+ Math.sin(prot + fovAngle)*20);
+
+				g.stroke();
+				g.fillStyle = "black";
+				// draw some debug and infos
+				g.fillText("Current score (fitness): "+score,750,50);
+
+				// Compute and draw what the player sees
+				seedata = Pvision();
+				for(i = 0;i < seedata.length;i++){
+					g.fillRect((seedata[i]/2+0.5)*1000,950,5,50);
+				}
+			}
+			function processWorld(){
+				var movedata = playerAI(translateData(Pvision())),i;
+				if(movedata == 1){prot += 0.05}
+				if(movedata == 3){prot -= 0.05}
+				px += Math.cos(prot)/200;
+				py += Math.sin(prot)/200;
+				if(px < 0){px = 0;}if(px > 1){px = 1;} // world boundries
+				if(py < 0){py = 0;}if(py > 1){py = 1;}
+
+				for(i = 0;i < world.length;i++){
+					if(distance([world[i][0],world[i][1]],[px,py]) < 0.03){ // dots eating. 0.01 should be equal to player radius or less
+						score ++; // dot eaten
+						world[i] = [Math.random(),Math.random()];
+					}
+				}
+			}
+
+			var world = [],px = 0.5,py = 0.5,prot = 0;
+			const fovConstant = 1.5; // the player fov is 1.5 unit wide at 1 unit away from him
+			const fovAngle = Math.acos(2/Math.sqrt(4 + fovConstant^2));
+
+			var score = 0,seedata = [];
+			var averageScores = [];
+			var running = false;
+
+			initWorld(20);
+
+			var c = document.getElementById("c3_1");
+			var g = c.getContext("2d");
+			render();
+
+			// ----------------------- Neural network part starts here --------------------
+			var c = document.getElementById("c3_2");
+
+			var population = []; // a population of neural networks.
+			var fitness = []; // store the fitness of each network.
+			var currentNet = new Network(7,[],3);
+			var dispInter = null;
+			var bestg1net = null;
+
+			for(var i = 0;i < 100;i++){
+				population.push(new Network(7,[],3)); // The robot's field of view has 6 sections that can vary and 1 section that is always on
+				// The robots makes a choice between 3 options : left, forward, right 
+				population[i].randomize();
+				currentNet = population[i]
+				fitness.push(testNetwork());
+			}
+			sortpopulation();
+			bestg1net = population[99];
+
+			function playerAI(vision){ // how the player should be given vision (what he sees)
+
+				var r = currentNet.feed(vision); // ask the network for a result.
+
+				// find biggest output
+				if(r[0] > r[1] && r[0] > r[2])
+					return 0;
+				if(r[1] > r[0] && r[1] > r[2])
+					return 1;
+				return 2;
+			}
+			function sortpopulation(){
+				population.sort(function(a,b){
+					return fitness[population.indexOf(a)] - fitness[population.indexOf(b)]; // 99 => best network
+				});
+				fitness.sort(function(a,b){
+					return a - b;
+				});
+			}
+			function testNetwork(){ // return the score of a network
+				score = 0;
+				initWorld(20);
+				px = 0.5;
+				py = 0.5;
+				prot = 0;
+				for(var i = 0;i < 1000;i++){
+					processWorld();
+				}
+				return score;
+			}
+			function displayNetworkPerfs(){
+				clearInterval(dispInter);
+				score = 0;
+				initWorld(20);
+				px = 0.5;
+				py = 0.5;
+				prot = 0;
+				let c = 0;
+				dispInter = setInterval(function(){
+					processWorld();
+					processWorld();
+					processWorld();
+					processWorld();
+					c++;
+					if(c >= 500)
+						clearInterval(dispInter);
+				},10); // update world
+			}
+
+			function draw(){
+				requestAnimationFrame(draw);
+				currentNet.draw(c);
+			}
+			draw();
+
+			document.getElementById('random_net').addEventListener('click',function(){
+				currentNet = new Network(7,[],3);
+				currentNet.randomize();
+				displayNetworkPerfs();
+			});
+			document.getElementById('bestg1_net').addEventListener('click',function(){
+				currentNet = bestg1net;
+				displayNetworkPerfs();
+			});
+			document.getElementById('bestgn_net').addEventListener('click',function(){
+				var survivors = []; // best networks
+				var fitness = [];
+				for(var i = 0;i < 20;i++){
+					survivors.push(population[80+i]);
+				}
+				for(i = 0;i < 100;i++){
+					population[i] = survivors[i % survivors.length];
+					population[i].mutate(0.1,0.1) // mutation rate, mutation chance
+					currentNet = population[i];
+					fitness.push(testNetwork());
+				}
+				sortpopulation();
+				currentNet = population[99];
+				displayNetworkPerfs();
+			});
+		})();
+	</script>
+	<script data-copy="network4">
+		(function(){
+			"use strict";
+			var c = document.getElementById("c4_1");
+			var c2 = document.getElementById("c4_2");
+			var g = c.getContext("2d");
+			var net = new Network(2,[],1);
+
+			var range1 = document.getElementById("v1r");
+			var range2 = document.getElementById("v2r");
+
+			// Add some style to our network display
+
+			net.labelSize = 60; // big text label
+			net.textSize = 0; // dont care about the text inside
+			net.nodeSize = 200; // huge nodes
+			net.padding = 100;
+			net.layerPadding = 200; // big padding
+			net.map(function(n){
+				n.weight = 1;
+				n.connectionweights = [0.5];
+			});
+			function numbercolor(n){ // convert dec to hex with overflow management.
+				n = Math.round(Math.min(Math.max(n,0),255)).toString(16);
+				if(n.length == 1)
+					n = "0"+n;
+				return n;
+			}
+			function setC1(v){ // edit value of the first connection
+				net.layers[0].neurons[0].connectionweights[0] = v;
+			}
+			function setC2(v){ // edit value of the second connection
+				net.layers[0].neurons[1].connectionweights[0] = v;
+			}
+			function draw(){
+				requestAnimationFrame(draw);
+				setC1(range1.value);
+				setC2(range2.value);
+				for(var i = 0;i < 100;i++){
+					for(var j = 0;j < 100;j++){
+						// +100-i to revert drawing axis
+						var r = net.feed([100-j,i]) * 2; // *2 to make results more significant. This could be handle by a third neuron
+						g.fillStyle = "#"+numbercolor(r)+numbercolor(-r)+"00"; // convert network result to color. Negative is green to avoid full black
+						g.fillRect(i*10,j*10,10,10)
+					}
+				}
+				net.draw(c2);
+			}
+			draw();
+		})();
+	</script>
+	<script data-copy="network5">
+		(function(){
+			"use strict";
+			var c = document.getElementById("c5");
+			var g = c.getContext("2d");
+			var net = new Network(3,[5,5],3);
+			var i,j,r;
+			var drawdata = [];
+			rerandomize5();
+
+			document.getElementById('regennet5').addEventListener('click',function(){
+				rerandomize5();
+			});
+
+			function numbercolor(n){ // convert dec to hex with overflow management.
+				n = Math.round(Math.min(Math.max(n,0),255)).toString(16);
+				if(n.length == 1)
+					n = "0"+n;
+				return n;
+			}
+			function rerandomize5(){
+				net.map(function(n,lay,neur){
+					n.weight = 1;
+					for(i = 0;i < n.connectionweights.length;i++){
+						n.connectionweights[i] = (Math.random()-0.5) * 2;
+					}
+				});
+				drawdata = [];
+				for(i = 0;i < 100;i++){
+					drawdata.push([]);
+					for(j = 0;j < 100;j++){
+						r = net.feed([(j-50)*4,(i-50)*4,128]);
+						drawdata[i].push([r[0],r[1],r[2]]);
+					}
+				}
+			}
+			function draw(){
+				requestAnimationFrame(draw);
+				for(i = 0;i < 100;i++){
+					for(j = 0;j < 100;j++){
+						r = drawdata[i][j];
+						g.fillStyle = "#"+numbercolor(r[0])+numbercolor(r[1])+numbercolor(r[2]);
+						g.fillRect(i*10,j*10,10,10)
+					}
+				}
+			}
+			draw();
+		})();
+	</script>
+	<script> // copy paste code
+		var datacopy = document.querySelectorAll("[data-copy]");
+		for(var i = 0;i < datacopy.length;i++){
+			var el = document.querySelector("[data-paste="+datacopy[i].getAttribute("data-copy")+"]");
+			if(el !== null)
+				el.innerHTML = datacopy[i].innerHTML;
+		}
+	</script>
+</html>
