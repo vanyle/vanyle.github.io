@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ODE</title>
+		<div style="display:none">
+			A representation of an object moving in a position/speed
+			state space.
+		</div>
+		<meta charset="utf8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			html,body{
+			  background-color: #fff;
+			  width: 100%;height:100%;
+			  padding:0;
+			  margin:0;
+			}
+			*{
+				position: relative;
+				box-sizing: border-box;
+			}
+			#c{
+				position: fixed;
+				top:0px;
+				left:0px;
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="c" width="1280" height="720"></canvas>
+		<input type="range" min="-3" max="3" value="0.3" step="0.02" id="divergence_slide">
+		<input type="range" min="-3" max="3" value="0.1" step="0.02" id="curl_slide">
+	</body>
+	<script>
+		"use strict";
+		let g = c.getContext('2d');
+		let bg = "#eee";
+
+		function sign(x){
+			return x>0 ? 1 : -1;
+		}
+
+		// Change this function to customize the field
+		let field_func = (x,y) => {
+			//const divergence = -1/3;
+			//const curl = 1;
+			let divergence = divergence_slide.value;
+			let curl = curl_slide.value;
+			return {
+				x:x * divergence + y*curl,
+				y:y * divergence + x*(-curl)
+			};
+		}
+
+		let dot = {x:0.5,y:0};
+
+		const precision = 40; // number of vectors drawn
+		const vectSize = 20; // size of the vectors drawn
+
+		function draw(){
+			g.fillStyle = bg;
+			g.fillRect(0,0,1280,720);
+
+			// display the field
+			g.strokeStyle = "#000";
+			g.fillStyle = "#000";
+
+			for(let i = 0;i < precision;i++){
+				for(let j = 0;j < precision;j++){
+					let sx = i * c.width / precision;
+					let sy = j * c.height / precision;
+
+					let cx = (i/precision - .5) * 2;
+					let cy = (j/precision - .5) * 2;
+
+					g.beginPath();
+					g.moveTo(sx,sy);
+					let {x,y} = field_func(cx,cy);
+					g.lineTo(sx+x*vectSize,sy+y*vectSize);
+					g.stroke();
+
+					g.beginPath();
+					g.arc(sx+x*vectSize,sy+y*vectSize,vectSize/10,0,2*Math.PI);
+					g.fill();
+				}
+			}
+
+			// move the dot in the field and render it.
+
+			let sx = (dot.x + 1) * c.width/2;
+			let sy = (dot.y + 1) * c.height/2;
+
+			g.fillStyle = "#f00";
+			g.beginPath();
+			g.arc(sx,sy,vectSize/5,0,2*Math.PI);
+			g.fill();
+
+			let {x,y} = field_func(dot.x,dot.y);
+			dot.x += x / 100;
+			dot.y += y / 100;
+
+			requestAnimationFrame(draw);
+		}
+		draw();
+
+	</script>
+</html>

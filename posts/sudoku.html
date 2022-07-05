@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<!--
+Ce code est la propriété de Vanyle Corp et de Antoine D (alias vanyle)
+Tous droits réservés.
+All rights reserved
+
+Ecrit en juin 2018
+-->
+<html>
+	<head>
+		<title>Sudoku</title>
+		<div style="display:none">
+			A sudoku solver.
+		</div>
+		<meta charset="utf8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			html,body{
+			  background-color: #fff;
+			  width: 100%;
+			  height:100%;
+			  padding:0;
+			  margin:0;
+			  display: flex;
+			  align-items: center;
+			  justify-content: center;
+			  flex-direction: column;
+			}
+			*{
+				position: relative;
+				box-sizing: border-box;
+				font-family: "Helvetica",sans-serif;
+			}
+			canvas{
+				width:500px;
+				height:500px;
+			}
+			button{
+				margin:10px;
+				border:none;
+				outline:none;
+				background-color:transparent;
+				border:3px solid #55b;
+				border-radius:10px;
+				padding:10px;
+				font-size:1.5em;
+				transition: 400ms;
+			}
+			button:hover{
+				background-color:#55b;
+				color:white;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Résolveur de Sudoku !</h1>
+		<canvas id="c" width="900" height="900"></canvas>
+		<p id="info">Entrez vos nombres et je vais essayer de résoudre votre sudoku !</p><br/>
+		<div>
+			<button id="solve">Résoudre</button>
+			<button id="clear">Vider la grille</button>
+		</div>
+	</body>
+	<script>
+		"use strict";
+		function _(e){return document.getElementById(e)};
+		function copy(e){ // Copies only arrays.
+			let copy = new Array(e.length); // prefill array for faster perf
+			for(let i = 0;i < e.length;i++){
+				copy[i] = e[i];
+			}
+			return copy;
+		}
+		function get(x,y){
+			return x + y*9;
+		}
+		function floor(x){
+			return Math.floor(x);
+		}
+
+		let c = _('c');
+		let g = c.getContext('2d');
+
+		let grid = new Array(9*9).fill(0); // Grid for the user. Displayed in blue
+		let fillingGrid = new Array(9*9).fill(0); // Grid for the algo, Displayed in orange
+		let i,j,mx,my,mcell;
+
+		addEventListener('mousemove',function(e){
+			mx = (e.clientX - c.offsetLeft) * c.width / c.offsetWidth;
+			my = (e.clientY - c.offsetTop) * c.height / c.offsetHeight;
+			mx = Math.floor(mx/100);
+			my = Math.floor(my/100);
+			mcell = get(mx,my);
+		});
+		addEventListener('mousedown',function(e){
+			if(0 <= mx && 0 <= my && mx < 9 && my < 9){
+
+				grid[mcell]++;
+				if(grid[mcell] > 9)
+					grid[mcell] = 0;
+			}
+		});
+		_('clear').onclick = function(){
+			grid = new Array(9*9).fill(0);
+			fillingGrid = new Array(9*9).fill(0);
+		};
+		_('solve').onclick = function(){
+			solveGrid();
+		}
+
+		draw();
+		function draw(){
+			g.clearRect(0,0,900,900);
+
+			g.strokeStyle = "black";
+			g.fillStyle = "black";
+			g.font = "75px Helvetica";
+
+			for(i = 0;i < 10;i++){
+				if(i%3 == 0){
+					g.lineWidth = 4;
+				}else{
+					g.lineWidth = 2;
+				}
+				g.beginPath();
+				g.moveTo(0,i*100);
+				g.lineTo(900,i*100);
+				g.stroke();
+				g.beginPath();
+				g.moveTo(i*100,0);
+				g.lineTo(i*100,900);
+				g.stroke();
+			}
+
+			for(i = 0;i < grid.length;i++){
+				if(grid[i] > 0 && grid[i] < 10){
+					g.fillStyle = 'blue';
+					g.fillText(grid[i],(i%9)*100+30,floor(i/9)*100+75);
+				}else if(fillingGrid[i] > 0 && fillingGrid[i] < 10){
+					g.fillStyle = 'orange';
+					g.fillText(fillingGrid[i],(i%9)*100+30,floor(i/9)*100+75);
+				}
+			}
+
+			g.fillStyle = "rgba(0,0,0,0.5)";
+			g.fillRect(mx*100,my*100,100,100);
+
+			requestAnimationFrame(draw);
+		}
+
+
+		// SOLVING ALGO STARTS HERE
+
+		let gridsolver = null;
+
+		function solveGrid(){
+			fillingGrid = copy(grid);
+			gridsolver = new GridSolver(fillingGrid);
+			gridsolver.solve(function(result){
+				if(result.err){
+					//fillingGrid = new Array(9*9).fill(0);
+					_('info').innerHTML = result.err;
+				}else{
+					_('info').innerHTML = "Résolu !";
+				}
+			});
+		}
+		function noDup(array,hashmap){
+			for(let i = 0;i < array.length;i++){
+				if(array[i] === 0)
+					continue;
+
+				if(hashmap[array[i]-1] !== 0){
+					return array[i];
+				}else{
+					hashmap[array[i]-1] ++;
+				}
+			}
+			return true;
+		}
+
+		function GridSolver(grid){
+			this.grid = grid;
+			this.possibleSolutions = new Array(9*9).fill([]);
+		}
+
+		GridSolver.prototype.solve = function(callback){
+			callback = callback || function(){};
+			let i = 0;
+
+			let valid = this.isGridValid();
+			if(valid !== true){
+				callback({err:"Insoluble: la grille donnée possède une erreur triviale : "+valid});
+				return;
+			}
+
+			valid = true;
+			let valid2 = true;
+
+			while(valid || valid2){
+				// Compute the field of possible solutions a couple times
+				valid = this.computePossibleSolutions(); // This auto-solves trivial cases.
+				if(typeof valid === "number"){
+					callback({err:"Insoluble: la case ("+(valid%9+1)+";"+(floor(valid/9)+1)+") ne peux pas être remplie."});
+					return;
+				}
+				valid2 = this.computeSmarterSolutions(); // This solve a bit less trivial cases.
+				if(typeof valid2 === "string"){
+					callback({err:"Insoluble: "+valid2});
+					return;
+				}
+			}  // Deduction method loop. Combines 2 classic deduction method. Each iteration = At least 1 cell solved.
+			// What is cool with the deduction method is that it give good reasons for why the puzzle cannot be solved.
+
+			// Now the real solving by brute force !
+
+			let j = new Array(81).fill(-1); // possible solution id index
+			let fixed = new Array(81).fill(false);
+
+			i = 0;
+			for(i = 0;i < this.grid.length;i++){
+				if(this.grid[i] !== 0){
+					fixed[i] = true;
+				}
+			}
+
+			let timer = 0; // We (try to) do async
+			let ok = false;
+			const FORWARD = true;
+			const BACKWARD = false;
+
+			let cursorDirection = FORWARD
+			let delprev = false;
+
+			i = 0;
+
+			let self = this;
+
+			let stepTowardSolve = function(callback){ // return isdone
+				if(i >= 81 || i < 0)
+					return true;
+				if(delprev && !fixed[i]){
+					self.grid[i] = 0;
+					delprev = false;
+				}
+				if(self.grid[i] !== 0){
+					if(cursorDirection === FORWARD){
+						i++;
+					}else{
+						i--;
+					}
+					return false;
+				}
+					
+				ok = false;
+				j[i]++;
+
+				if(j[i] >= self.possibleSolutions[i].length){
+					cursorDirection = BACKWARD;
+					self.grid[i] = 0;
+					j[i] = -1;
+					i--;
+					delprev = true;
+					return false;
+				}
+
+				while(j[i] < self.possibleSolutions[i].length){
+					self.grid[i] = self.possibleSolutions[i][j[i]];
+					if(self.isCellValid(i)){
+						i++;
+						cursorDirection = FORWARD;
+						ok = true;
+						break;
+					}
+					j[i]++;
+				}
+
+				if(!ok){
+					cursorDirection = BACKWARD;
+					self.grid[i] = 0;
+					j[i] = -1;
+					i--;
+					delprev = true;
+				}
+				return false;
+			}
+
+			var repeat = function(){ // while loop kinda but with sleep
+				var isdone = stepTowardSolve();
+
+				if(!isdone){
+					setTimeout(repeat,1); // change speed of solve here
+				}else{
+					if(i == -1){
+						callback({err:"Insoluble. Aucune manière triviale de le montrer."});
+					}else{
+						callback({});
+					}
+				}
+			};
+			repeat();
+		}
+		GridSolver.prototype.getLine = function(id){
+			let line = new Array(9);
+			for(let i = 0;i < 9;i++){
+				line[i] = this.grid[i + id*9];
+			}
+			return line;
+		}
+		GridSolver.prototype.getLineId = function(id){
+			let line = new Array(9);
+			for(let i = 0;i < 9;i++){
+				line[i] = i + id*9;
+			}
+			return line;
+		}
+		GridSolver.prototype.getColumn = function(id){
+			let col = new Array(9);
+			for(let i = 0;i < 9;i++){
+				col[i] = this.grid[i*9 + id];
+			}
+			return col;
+		}
+		GridSolver.prototype.getColumnId = function(id){
+			let line = new Array(9);
+			for(let i = 0;i < 9;i++){
+				line[i] = i*9 + id
+			}
+			return line;
+		}
+		GridSolver.prototype.getSquare = function(id){
+			let sq = new Array(9);
+			let startSquare = (id%3)*3 + floor(id/3) * 9 * 3; 
+			for(let i = 0;i < 9;i++){
+				sq[i] = this.grid[i%3 + floor(i/3)*9 + startSquare];
+			}
+			return sq;
+		}
+		GridSolver.prototype.getSquareId = function(id){
+			let line = new Array(9);
+			let startSquare = (id%3)*3 + floor(id/3) * 9 * 3; 
+			for(let i = 0;i < 9;i++){
+				line[i] = i%3 + floor(i/3)*9 + startSquare
+			}
+			return line;
+		}
+		GridSolver.prototype.computePossibleSolutions = function(){
+			let j = 0;
+			this.possibleSolutions = new Array(9*9).fill(null);
+			let useful = false;
+
+			for(let i = 0;i < this.grid.length;i++){
+				this.possibleSolutions[i] = [];
+
+				if(this.grid[i] === 0){
+					for(j = 1;j <= 9;j++){
+						this.grid[i] = j;
+						if(this.isCellValid(i)){
+							this.possibleSolutions[i].push(j);
+						}
+					}
+					if(this.possibleSolutions[i].length === 1){
+						this.grid[i] = this.possibleSolutions[i][0];
+						useful = true;
+					}else if(this.possibleSolutions[i].length === 0){
+						return i;
+					}else{
+						this.grid[i] = 0;
+					}
+				}
+			}
+			return useful;
+		}
+		GridSolver.prototype.computeSmarterSolutions = function(){
+			let i = 0,j = 0,digit = 0;
+			let useful = false;
+			let pos = [];
+			let possiblepos = [];
+			let res;
+
+			for(i = 0;i < 9;i++){
+				pos = this.getLineId(i);
+				res = this.checkDigitPossibleForArray(pos,"la ligne "+(i+1));
+				if(typeof res === "string"){
+					return res;
+				}
+				useful = useful || res;
+			}
+			for(i = 0;i < 9;i++){
+				pos = this.getColumnId(i);
+				res = this.checkDigitPossibleForArray(pos,"la colonne "+(i+1));
+				if(typeof res === "string"){
+					return res;
+				}
+				useful = useful || res;
+			}
+			for(i = 0;i < 9;i++){
+				pos = this.getSquareId(i);
+				res = this.checkDigitPossibleForArray(pos,"le carré "+(i+1));
+				if(typeof res === "string"){
+					return res;
+				}
+				useful = useful || res;
+			}
+
+			return useful;
+		}
+		GridSolver.prototype.checkDigitPossibleForArray = function(pos,zonename){
+			let i = 0
+			let possiblepos = [];
+			let useful = false;
+			let skip = false;
+
+
+			for(let digit = 1;digit <= 9;digit++){
+				skip = false;
+				for(i = 0;i < pos.length;i++){
+					if(this.grid[pos[i]] === digit){
+						skip = true;
+						break;
+					}
+				}
+				
+				if(skip)
+					continue;
+
+				possiblepos = [];
+				for(i = 0;i < pos.length;i++){ // check if a digit must be somewhere on the line
+					if(this.grid[pos[i]] === 0){
+						this.grid[pos[i]] = digit;
+						if(this.isCellValid(pos[i])){
+							possiblepos.push(pos[i]);
+						}
+						this.grid[pos[i]] = 0;
+					}
+				}
+				
+				if(digit === 3)
+					console.log(possiblepos)
+
+				if(possiblepos.length === 0){
+					return "Le chiffre "+digit+" ne peut pas se trouver dans "+zonename;
+				}else if(possiblepos.length === 1){
+					this.grid[possiblepos[0]] = digit;
+					useful = true;
+				}
+			}
+			return useful;
+		}
+		GridSolver.prototype.isCellValid = function(id){
+			let hashmap = new Array(9).fill(0);
+			let tocheck = this.getLine(floor(id/9));
+			if(noDup(tocheck,hashmap) !== true){
+				return false;
+			}
+
+			hashmap = new Array(9).fill(0);
+			tocheck = this.getColumn(id%9);
+			if(noDup(tocheck,hashmap) !== true){
+				return false;
+			}
+
+			hashmap = new Array(9).fill(0);
+			tocheck = this.getSquare(
+				floor((id%9)/3) + floor(id/(9*3))*3
+			);
+			if(noDup(tocheck,hashmap) !== true){
+				return false;
+			}
+
+			return true;
+		}
+		GridSolver.prototype.isGridValid = function(){
+			let i;
+			let hashmap = new Array(9).fill(0);
+			let tocheck;
+			for(i = 0;i < 9;i++){
+				hashmap = new Array(9).fill(0);
+				tocheck = this.getLine(i);
+				if(noDup(tocheck,hashmap) !== true){
+					hashmap = new Array(9).fill(0);
+					return "la ligne "+(i+1)+", le "+noDup(tocheck,hashmap)+" se répète";
+				}
+			}
+			for(i = 0;i < 9;i++){
+				hashmap = new Array(9).fill(0);
+				tocheck = this.getColumn(i);
+				if(noDup(tocheck,hashmap) !== true){
+					hashmap = new Array(9).fill(0);
+					return "la colonne "+(i+1)+", le "+noDup(tocheck,hashmap)+" se répète";
+				}
+			}
+			for(i = 0;i < 9;i++){
+				hashmap = new Array(9).fill(0);
+				tocheck = this.getSquare(i);
+				if(noDup(tocheck,hashmap) !== true){
+					hashmap = new Array(9).fill(0);
+					return "le carré numéro "+(i+1)+", le "+noDup(tocheck,hashmap)+" se répète";
+				}
+			}
+			return true;
+		}
+	</script>
+</html>

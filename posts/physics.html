@@ -1,0 +1,114 @@
+<html>
+    <head>
+        <title>Bouncy</title>
+        <div style="display:none;">
+            Click anywhere to spawn a bouncing ball!
+        </div>
+        <style>
+            *{
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="c" width="1000" height="1000"></canvas>
+    </body>
+    <script>
+        "use strict";
+        const canvas = document.getElementById("c");
+        const g = c.getContext("2d");
+
+        // Data / Process
+        function Ball(x,y,r){
+            this.x = x;
+            this.y = y;
+            this.r = r;
+            this.color = "red";
+            this.vx = 0;
+            this.vy = 0;
+        }
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+        function collide(a,b){ // works for 2 balls
+            return (a.x-b.x)*(a.x-b.x) + (a.y-b.y*a.y-b.y) < (a.r+b.r)*(a.r+b.r);
+        }
+        function collideAngle(a,b){
+
+        }
+        function dist(a,b){
+            return Math.sqrt((a.x-b.x)*(a.x-b.x) + (a.y-b.y*a.y-b.y))
+        }
+        const ftime = 1000/60;
+        var groundheight = 700;
+        var wallleft = 10;
+        var wallright = 10;
+        var objects = [];
+
+        addEventListener('click',function(e){
+            var b = new Ball(e.clientX,e.clientY,Math.random()*30 + 5)
+            b.vx = (Math.random()-0.5)*30;
+            b.color = getRandomColor();
+            objects.push(b)
+        });
+
+        setInterval(function(){
+            for(let i = 0;i < objects.length;i++){
+                let c = objects[i];
+
+                // basic interactions with ground and gravity
+
+                if(c.y+c.r > groundheight) // ground
+                    c.vy = -Math.abs(c.vy);
+                if(c.y+c.r <= groundheight)
+                    c.vy += 9.8 / ftime;
+                if(c.x < wallleft)
+                    c.vx = Math.abs(c.vx);
+                if(c.x > canvas.width-wallright)
+                    c.vx = -Math.abs(c.vx);
+
+              //  c.vy *= 0.99;
+              //  c.vx *= 0.99;
+              //  c.vx += 0.1*Math.sign(c.vx);
+
+                c.x += c.vx;
+                c.y += c.vy;
+            }
+        },ftime); // 60fps
+
+        // Render
+
+        const bgcolor = "#333";
+        const wallcolor = "#333";
+
+        function display(){
+            requestAnimationFrame(display);
+            c.width = innerWidth;
+            c.height = innerHeight;
+
+            g.fillStyle = bgcolor;
+            g.fillRect(0,0,canvas.width,canvas.height);
+            g.fillStyle = wallcolor;
+            g.fillRect(0,groundheight,c.width,c.height);
+            g.fillRect(0,0,wallleft,canvas.height);
+            g.fillRect(canvas.width-wallright,0,wallright,canvas.height);
+
+            for(let i = 0;i < objects.length;i++){
+                let currO = objects[i];
+                g.fillStyle = currO.color;
+                g.beginPath();
+                g.arc(currO.x,currO.y,currO.r,0,Math.PI*2);
+                g.fill();
+            }
+        }
+        display();
+
+    </script>
+</html>

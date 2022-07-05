@@ -1,68 +1,483 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>vanyle</title>
-	<meta charset="utf8"/>
-	<link rel="stylesheet" href="assets/style.css"/>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="An ASG website">
+	<meta name="author" content="vanyle">
+	<meta name="keywords" content="blog, asg, vanyle">
+	<title>Antoine's blog</title>
+	<style>
+		body,html{
+			font-family: sans-serif;
+			display: flex;
+			flex-direction: column;
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+		}
+		header{
+			display: flex;
+			align-items: stretch;
+			justify-content: center;
+		}
+		header a{
+			text-decoration: none;
+		}
+		a{
+			color: inherit;
+			cursor: pointer;
+		}
+		main{
+			padding: 10px;
+		}
+		header > div{
+			width: min(max(60%, 500px), 100%);
+			height: 100%;
+			display: flex;
+			align-items: stretch;
+			justify-content: space-between;
+		}
+		nav{
+			display: flex;
+			align-items: center;
+			height: 100%;
+		}
+		header h1{
+			display: flex;
+			align-items: center;
+			font-size: 2em;
+			font-weight: normal;
+		}
+	</style>
+	<style>
+@import url('http://fonts.cdnfonts.com/css/oswald-4');
+header{
+	padding: 30px 0px;
+	border-top: 4px solid #36f;
+	background-color: white;
+	margin-bottom:15px;
+	box-shadow:0 3px 1px 0px #333;
+}
+h2{
+	color: #36f;
+}
+body{
+	background-color:#36f;
+	justify-content: space-between;
+}
+nav > *{
+	font-family: "Oswald", sans-serif;
+	padding: 10px 10px;
+	margin: 0 10px;
+	font-size: 1.3em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	cursor: pointer;
+	box-sizing: content-box;
+	border-bottom: 5px solid transparent;
+	transition: 300ms;
+}
+nav > *:hover{
+	border-bottom: 5px solid #36f;
+}
+nav > *:active{
+	transform: scale(0.9);
+}
+h1,h2,h3,h4,h5,h6{
+	margin: 5px;
+	font-family: "Oswald", sans-serif;
+}
+section{
+	width: min(max(60%, 500px), 100%);
+	box-sizing: border-box;
+	padding:20px;
+	background-color:white;
+	margin: auto;
+	display:flex;
+	flex-direction: column;
+}
+.card{
+	padding: 15px;
+	margin: 10px;
+	text-decoration:none;
+	transition:300ms;
+}
+a{
+	text-decoration:none;
+}
+p a{
+	text-decoration:underline;
+}
+.card:hover{
+	box-shadow:inset 0px 0px 0px 2px #333;
+}
+.card .title{
+	cursor: pointer;
+	font-weight: bold;
+	display: inline-block;
+	text-decoration: none;
+	font-size: 1.4em;
+	color: inherit;
+	transition:300ms;
+}
+.card .title:active{
+	transform: scale(0.9);
+}
+.card .title:hover{
+	color:#333;
+}
+.card .time{
+	color: #666;
+}
+footer{
+	background-color: white;
+	box-shadow:0 -3px 1px 0px #333;
+	padding:5px 15px;
+}
+</style>
+
 </head>
 <body>
 	<header>
-		<span>Antoine Delègue - Vanyle</span>
+		<div>
+			<h1>Antoine's blog</h1>
+			<nav>
+				<a href="/">Home</a>
+				<a href="/about.html">About</a>
+				<a href="/search.html">Search</a>
+			</nav>
+		</div>
 	</header>
-	<div id="scroll" class='scroll'>
-		<div class='screen title' id='top'>
-			<h1>Antoine Delègue - Some HTML projects I made</h1>
-			<div class='downarrow click' data-go='presentation'></div>
-		</div>
-		<div class='screen' id='presentation'>
-			<h2>Interactive animations</h2>
-			<div class='prettylink'><a href="demo/neuraldoc_fancy.html">Interactive animation about Neural networks (in english)</a></div>
-			<div class='prettylink'><a href="demo/flux.html">Interactive animation about vector fields (in french)</a></div>
-		</div>
-		<div class='screen' id='presentation'>
-			<h2>Games and solvers</h2>
-			<div class='prettylink'><a href="demo/sudoku.html">Sudoku solver (by brute force)</a></div>
-			<div class='prettylink'><a href="demo/gameoflife.html">Game of life implementation</a></div>
-			<div class='prettylink'><a href="demo/texts.html">autological word renderer</a></div>
-		</div>
-		<div class='screen' id='presentation'>
-			<h2>Simulation and Rendering</h2>
-			<div class='prettylink'><a href="demo/cube.html">A rotating cube, drawn with a custom mini 3d rendering engine</a></div>
-			<div class='prettylink'><a href="demo/outerspace.html">Gravity simulation</a></div>
-			<div class='prettylink'><a href="demo/physics.html">Bouncing ball simulation</a></div>
-			<div class='prettylink'><a href="demo/projectile.html">Projectile simulation</a></div>
-			<div class='prettylink'><a href="demo/ode.html">ODE visualization (in phase space)</a></div>
-			<div class='prettylink'><a href="demo/fractalo_2.html">Self-repeating fractal renderer</a></div>
-			<div class='prettylink'><a href="demo/fractalo.html">Julia-set renderer</a></div>
-		</div>
-		<footer class='screen'>
-			<h2>vanyle / Antoine, 2020</h2>
-		</footer>
-	</div>
-	<script>
-		function _(e){return document.getElementById(e)}
-		function e(event,selector,callback){
-			addEventListener(event,function(e){
-				var t = e.target;
-				while(t !== null){
-					if(t.matches(selector)){
-						callback(t);
-					}
-					t = t.parentElement;
-				}
-			});
-		}
+	<section>
+	
 
-		e('click','[data-go]',function(t){
-			var elOff = _(t.getAttribute('data-go')).offsetTop;
-			var dist = elOff - _('scroll').scrollTop;
-			console.log(dist);
-			for(var i = 0;i <  100;i++){
-				setTimeout(function(){
-					_('scroll').scrollTop += dist/100;
-				},i*3)
+<h1>Latest posts and projects</h1>
+<a href=".\posts\critique_of_algo_feeds.html">
+<div class='card'>
+        <h3 class='title'>
+        A critique of content feeds curated by &quot;Popularity&quot;		</h3>
+        <div class="time">05/07/22</div>
+        <p>
+        Like a lot of people, I spend a lot of time online.		</p>
+        <div class="time">
+        About 3 minutes to read
+        </div>
+</div>
+</a>
+<a href=".\posts\cube.html">
+<div class='card'>
+        <h3 class='title'>
+                Cube
+        </h3>
+        <div class="time">03/07/22</div>
+        <p>
+                    A Cube rendered with a custom minimal 3d engine.
+        </p>
+        <div class="time">
+        About 2 minutes to read
+        </div>
+</div>
+</a>
+<a href=".\posts\droplets.html">
+<div class='card'>
+        <h3 class='title'>
+                Droplets
+        </h3>
+        <div class="time">03/07/22</div>
+        <p>
+                    A colorful water droplet animation
+        </p>
+        <div class="time">
+        About 1 minutes to read
+        </div>
+</div>
+</a>
+<a href=".\posts\flux.html">
+<div class='card'>
+        <h3 class='title'>
+                Fields
+        </h3>
+        <div class="time">03/07/22</div>
+        <p>
+                    Ce jeu est une introduction interactive aux champs de vecteurs. Vous voilà prévenus !
+        </p>
+        <div class="time">
+        About 6 minutes to read
+        </div>
+</div>
+</a>
+<a href=".\posts\fractalo.html">
+<div class='card'>
+        <h3 class='title'>
+            Fractalo!
+        </h3>
+        <div class="time">03/07/22</div>
+        <p>
+            Julia style fractal renderer
+        </p>
+        <div class="time">
+        About 1 minutes to read
+        </div>
+</div>
+</a>
+<a href=".\posts\fractalo_2.html">
+<div class='card'>
+        <h3 class='title'>
+                Fractalo 2
+        </h3>
+        <div class="time">03/07/22</div>
+        <p>
+                Recursive fractal renderer
+        </p>
+        <div class="time">
+        About 1 minutes to read
+        </div>
+</div>
+</a>
+<a href=".\posts\galaxy.html">
+<div class='card'>
+        <h3 class='title'>
+                Cute
+        </h3>
+        <div class="time">03/07/22</div>
+        <p>
+                    A cool looking animation using follower curves
+        </p>
+        <div class="time">
+        About 1 minutes to read
+        </div>
+</div>
+</a>
+<a href=".\posts\gameoflife.html">
+<div class='card'>
+        <h3 class='title'>
+            Game Of Life
+        </h3>
+        <div class="time">03/07/22</div>
+        <p>
+            A game of life renderer with a random start.
+        </p>
+        <div class="time">
+        About 1 minutes to read
+        </div>
+</div>
+</a>
+<a href=".\posts\neuraldoc_fancy.html">
+<div class='card'>
+        <h3 class='title'>
+                Neural networks
+        </h3>
+        <div class="time">03/07/22</div>
+        <p>
+                    A basic interactive introduction to neural networks
+        </p>
+        <div class="time">
+        About 8 minutes to read
+        </div>
+</div>
+</a>
+<a href=".\posts\ode.html">
+<div class='card'>
+        <h3 class='title'>
+                ODE
+        </h3>
+        <div class="time">03/07/22</div>
+        <p>
+                    A representation of an object moving in a position/speed
+        </p>
+        <div class="time">
+        About 1 minutes to read
+        </div>
+</div>
+</a>
+<a href=".\posts\outerspace.html">
+<div class='card'>
+        <h3 class='title'>
+                    OuterSpace
+        </h3>
+        <div class="time">04/07/22</div>
+        <p>
+                    	A physics simulation of planets with Newtonian physics.
+        </p>
+        <div class="time">
+        About 2 minutes to read
+        </div>
+</div>
+</a>
+<a href=".\posts\physics.html">
+<div class='card'>
+        <h3 class='title'>
+                Bouncy
+        </h3>
+        <div class="time">05/07/22</div>
+        <p>
+                    Click anywhere to spawn a bouncing ball!
+        </p>
+        <div class="time">
+        About 4 minutes to read
+        </div>
+</div>
+</a>
+<a href=".\posts\projectile.html">
+<div class='card'>
+        <h3 class='title'>
+                Projectile
+        </h3>
+        <div class="time">05/07/22</div>
+        <p>
+                	The curve of a projectile based on initial angle with no velocity. The maximal height range makes a cool shape.
+        </p>
+        <div class="time">
+        About 1 minutes to read
+        </div>
+</div>
+</a>
+<a href=".\posts\rings.html">
+<div class='card'>
+        <h3 class='title'>
+                Rings
+        </h3>
+        <div class="time">05/07/22</div>
+        <p>
+                    A trippy animation based on circles.
+        </p>
+        <div class="time">
+        About 1 minutes to read
+        </div>
+</div>
+</a>
+<a href=".\posts\sudoku.html">
+<div class='card'>
+        <h3 class='title'>
+                Sudoku
+        </h3>
+        <div class="time">05/07/22</div>
+        <p>
+                    A sudoku solver.
+        </p>
+        <div class="time">
+        About 1 minutes to read
+        </div>
+</div>
+</a>
+<a href=".\posts\texts.html">
+<div class='card'>
+        <h3 class='title'>
+                Texts
+        </h3>
+        <div class="time">05/07/22</div>
+        <p>
+                    An autological word renderer
+        </p>
+        <div class="time">
+        About 2 minutes to read
+        </div>
+</div>
+</a>
+<a href=".\posts\whitecircle.html">
+<div class='card'>
+        <h3 class='title'>
+                Hyperbolic
+        </h3>
+        <div class="time">05/07/22</div>
+        <p>
+                    A failed attempt at rendering a hyperbolic tiling.
+        </p>
+        <div class="time">
+        About 2 minutes to read
+        </div>
+</div>
+</a>
+
+	</section>
+	<footer>
+			<p> © 2022 - Antoine Delègue - Powered by ASG</p>
+
+	</footer>
+</body>
+
+
+
+	
+
+	
+
+	<script>
+		addEventListener("DOMContentLoaded", () => {
+			if(typeof window.hljs !== "undefined"){
+				document.body.querySelectorAll("code.language-mermaid").forEach((el) => {
+					
+					el.className = "mermaid";
+					let tempId = "tempId51432"; 
+					el.id = tempId;
+					let prevParent = el.parentElement; 
+					let fn = (svgCode, bindFunctions) => {
+						let d = document.createElement("div");
+						d.innerHTML = svgCode;
+						prevParent.append(d); // for some reason, el get's removed from the DOM, so we add it back.
+					};
+					mermaid.mermaidAPI.render(tempId,el.innerText+"",fn);
+					el.id = "";
+				});
+			}
+
+			if(typeof window.hljs !== "undefined"){
+				window.hljs.highlightAll();
+			}
+
+			if(typeof window.renderMathInElement !== "undefined"){
+				renderMathInElement(document.body, {
+					delimiters: [
+						{left: '$$', right: '$$', display: true},
+						{left: '$', right: '$', display: false},
+						{left: '\\(', right: '\\)', display: true},
+						{left: '\\[', right: '\\]', display: false}
+					],
+					throwOnError : false
+				});
+			}
+
+			// Live reload. Try to reconnect when the connection fails.
+			if(location.hostname !== ""){
+				window.ws = null;
+				window.wsIsClosed = true;
+				let connectionMaker = () => {
+					if(wsIsClosed){
+						wsIsClosed = false;
+						try{
+							console.log("connecting...");
+							ws = new WebSocket("ws://"+location.host+"/ws");
+						}catch(err){} // don't spam the console.
+						ws.onmessage = (msg) => {
+							wsIsClosed = false;
+							if(msg.data == "reload"){
+								location.reload();
+							}else{
+								console.log(msg);
+							}
+						}
+						ws.onopen = () => {
+							console.log("Connected!");
+							wsIsClosed = false;
+						}
+						ws.onerror = () => {
+							wsIsClosed = true;
+						};
+						ws.onclose = () => {
+							wsIsClosed = true;
+						};
+					}
+				};
+				setInterval(connectionMaker, 1000);
+				connectionMaker();
 			}
 		});
 	</script>
-</body>
+
+
 </html>
