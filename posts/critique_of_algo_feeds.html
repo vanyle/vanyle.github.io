@@ -53,7 +53,7 @@
 		}
 	</style>
 	<style>
-@import url('http://fonts.cdnfonts.com/css/oswald-4');
+@import url('https://fonts.cdnfonts.com/css/oswald-4');
 header{
 	padding: 30px 0px;
 	border-top: 4px solid #36f;
@@ -277,39 +277,7 @@ one. Check the table above for some example of recency based feeds (RSS in parti
 			}
 
 			// Live reload. Try to reconnect when the connection fails.
-			if(location.hostname !== ""){
-				window.ws = null;
-				window.wsIsClosed = true;
-				let connectionMaker = () => {
-					if(wsIsClosed){
-						wsIsClosed = false;
-						try{
-							console.log("connecting...");
-							ws = new WebSocket("ws://"+location.host+"/ws");
-						}catch(err){} // don't spam the console.
-						ws.onmessage = (msg) => {
-							wsIsClosed = false;
-							if(msg.data == "reload"){
-								location.reload();
-							}else{
-								console.log(msg);
-							}
-						}
-						ws.onopen = () => {
-							console.log("Connected!");
-							wsIsClosed = false;
-						}
-						ws.onerror = () => {
-							wsIsClosed = true;
-						};
-						ws.onclose = () => {
-							wsIsClosed = true;
-						};
-					}
-				};
-				setInterval(connectionMaker, 1000);
-				connectionMaker();
-			}
+			
 		});
 	</script>
 

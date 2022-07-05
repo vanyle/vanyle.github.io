@@ -53,7 +53,7 @@
 		}
 	</style>
 	<style>
-@import url('http://fonts.cdnfonts.com/css/oswald-4');
+@import url('https://fonts.cdnfonts.com/css/oswald-4');
 header{
 	padding: 30px 0px;
 	border-top: 4px solid #36f;
@@ -171,6 +171,11 @@ footer{
 <div id="results"></div>
 <script>
     let posts = [
+            {
+            title: `Building a programming language`,
+            url: `./posts/building_programming_languages.html`,
+            description: `If you want to build your own programming language and have no idea where to start, there is this cool website / book`
+        },
             {
             title: `A critique of content feeds curated by &quot;Popularity&quot;`,
             url: `./posts/critique_of_algo_feeds.html`,
@@ -368,39 +373,7 @@ footer{
 			}
 
 			// Live reload. Try to reconnect when the connection fails.
-			if(location.hostname !== ""){
-				window.ws = null;
-				window.wsIsClosed = true;
-				let connectionMaker = () => {
-					if(wsIsClosed){
-						wsIsClosed = false;
-						try{
-							console.log("connecting...");
-							ws = new WebSocket("ws://"+location.host+"/ws");
-						}catch(err){} // don't spam the console.
-						ws.onmessage = (msg) => {
-							wsIsClosed = false;
-							if(msg.data == "reload"){
-								location.reload();
-							}else{
-								console.log(msg);
-							}
-						}
-						ws.onopen = () => {
-							console.log("Connected!");
-							wsIsClosed = false;
-						}
-						ws.onerror = () => {
-							wsIsClosed = true;
-						};
-						ws.onclose = () => {
-							wsIsClosed = true;
-						};
-					}
-				};
-				setInterval(connectionMaker, 1000);
-				connectionMaker();
-			}
+			
 		});
 	</script>
 
