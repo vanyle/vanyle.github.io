@@ -156,128 +156,166 @@ footer{
 	<section>
 	
 
-<h1>Building a programming language</h1>
-<p>If you want to build your own programming language and have no idea where to start, there is this cool website / book
-that explains every step of the process titled <a href="https://craftinginterpreters.com/">Crafting Interpreters</a></p>
-<p>However, you might probably already have some idea of where to start. Or you just don't want to
-follow a rigid step by step guide for your project and just want to get started with a few keywords and ideas.</p>
-<p>Well, I'm here to help!</p>
-<h2>But first, why do this</h2>
-<ol>
-<li>Incredible learning experience on how computers work</li>
-<li>Cool project to show off</li>
-<li>You can implement the language features of your dream</li>
-<li>A fun challenge</li>
-<li>You'll be asked to do this in ComSci in college anyway so might as well do it now to get ahead.</li>
-</ol>
-<h2>General infos</h2>
-<p>But, you might say &quot;you're just some random internet dude, what autority do you have on making programming languages?&quot;
-Well, I made one in a week (it took 2 days if you don't would the time taken to make the LR parser). <a href="https://github.com/vanyle/lrparser">You can find it here</a> (inside the <code>tests</code>
-directory of my parsing library)</p>
-<p>Ok, so most programming languages you know use the following steps to turn a text file into something executable.</p>
-<ol>
-<li>Tokenizing (also named Lexing)</li>
-<li>Parsing (aka building the Abstract Syntax Tree)</li>
-<li>Interpreting / Generating bytecode</li>
-</ol>
-<h2>The tokenization step</h2>
-<p>Initially, you start by reading the source file provided by the user and you end up with a big string.
-You need to cut this big string into small chunks called &quot;tokens&quot;. A token is the equivalent of a word in
-a human language. Tokens are short and common. Examples of tokens include: &quot;=&quot;, &quot;+&quot;, &quot;var_name&quot;, &quot;class&quot;, &quot;&lt;=&quot;</p>
-<h2>The parser</h2>
-<p>You then need to assemble these tokens together in a tree like structure that reflects their meaning.
-For example, the expression &quot;1 + 4 * 2&quot; could be assembled to the tree:</p>
-<p>(1,+,(4,*,2))</p>
-<p>in order to reflect the priority of operation. This is a complicated step if you want to do it quickly.
-You need to look ahead of your tokens to match bits that have high priority together to progressively assemble your tree.</p>
-<h2>Interpreting</h2>
-<p>Once you have built your abstract syntax tree, you can do whatever you like with it! You can generate bytecode, optimize it,
-convert the code to another programming language or interpret it.</p>
-<p>To interpret the language, you usually just perform a simple depth first parcours of the tree, recursively evaluating everything
-as you go. You might during evaluation keep a table to store the current variables associated with a given scope.</p>
-<h2>A few more tips</h2>
-<p>With the outline described above and some (a lot) of googling, you should be able to create a barebones programmoing language using a few weeks and a lot of motivation.
-However, I'd also like to share some concrete tips that might help you in your journey.</p>
-<p><strong>Don't try to optimize everything at the start.</strong></p>
-<p>In particular, don't try to support streams of bytes for your parser and lexer.
-While this is possible, it adds a big overhead, a larger risk of bugs and it's not very fun.
-Moreover, it's not common to parse files as large as your RAM, so this is rarely an issue in practive (but don't get me wrong, if you want to build a production-ready language, you'll have to do it at some point)</p>
-<p>Just read the whole source file, store it in a buffer and work on that buffer.</p>
-<p><strong>Read some theory on parser theory</strong></p>
-<p>Read <a href="https://en.wikipedia.org/wiki/LR_parser">the wikipedia page</a> on LR, SLR, LALR and PEG parsers. It helps to understand their innerworkings to be inspired to build one in
-order to get the sweet sweet \[ O(n) \] AST building time.</p>
-<p><strong>Don't implement too many features at first</strong></p>
-<p>Ever feature of the language will take some time to write. Numbers, strings, functions, arrays, etc... all of this will cause you to lose motivation if you can't test them right away.</p>
-<p>That's why it'd recommend first building a barebones language, with only arithmetic expressions and maybe functions and then progressively add more types and features.</p>
-<p><strong>Write tests</strong></p>
-<p>Programming languages are some of the most test-friendly projects ever. Your tests are just a series of source files and you just need to check that the program prints what it should print.</p>
-<p>Testing allows you to quickly check that you did not introduce some bug while working on a feature, it gives you benchmarks if you want to optimize your language for speed, and it helps you having a good understanding of the syntax of your language at all times.</p>
-<h2>Original stuff that you can do with a custom language</h2>
-<p>Once you have everything running, you can start having fun by implementing original features.
-Because you have access to the syntax tree of your language, you can perform all kind of static analysis.</p>
-<p>I'll describe some neat ideas that you can try out once you have built the tree.</p>
-<h3>Proving termination</h3>
-<p><em>Remember the halting problem? Well remember no more, we got just what you need!</em></p>
-<p>As you might know, proving that a function stops is <a href="https://en.wikipedia.org/wiki/Halting_problem">impossible in general</a>. However, there are classes of programs for which we can prove whever or not they finish.</p>
-<p>This is useful as most functions that never stops are not correct (unless if intended, like servers or desktop apps).</p>
-<p>One class of function that always stop are <a href="https://en.wikipedia.org/wiki/Primitive_recursive_function">Primitive recursive functions</a>, however, only having PRF is quite limiting for most functions.</p>
-<p>There is another way of proving that a function always stops: You rewrite it as a recursive function by removing all loops (which is always possible) as check that during every function call, the arguments given to the function get smaller in some sense.</p>
-<p>For example, if the function takes a list as a parameter and every recursive call of the function, the list given as argument gets shorter, and if the list is empty, the function stops then the function always stops.</p>
-<p>You can generalize this idea to detect if a function stops as described in <a href="https://www.researchgate.net/publication/220545855_On_Proving_the_Termination_of_Algorithms_by_Machine">this paper</a></p>
-<p>To simplify, for every common type in your language, you create a canonical order (for example, the usual &lt; order for integer) or the size of the element for lists.
-Then, when analyzing a recursive function, you check every <a href="https://en.wikipedia.org/wiki/Lexicographic_order">lexicographic ordering</a> that can be built by permutating the arguments of the function.
-If the recursive call follows that order, you can use it to build a proof of termination of your function.</p>
-<p>Using this, your language can automatically tag function that terminate and the ones that might not and can give you useful insights into your program.</p>
-<p>You can make your termination detection system more powerful by defining more orderings on your types (for example, a divides b is an ordering over the positive integers and the polynoms)</p>
-<h3>Proving correctness</h3>
-<p><em>Like Rust but more annoying</em></p>
-<p>Proving that a program stops is cool, but proving that a program is correct is cooler. That's the idea that helped create <a href="https://www.rust-lang.org/">Rust</a>.</p>
-<p>You can do similar things inside your language to prove things about your program!</p>
-<p>Using static analysis technics, you have detect in what sets the variables you have can be and using this, you can detect things like Out of Bounds arrays access or divisions by zero.</p>
-<p>You can find <a href="https://en.wikipedia.org/wiki/Formal_specification">more info here</a></p>
-<h3>Optimization that's a bit too smart</h3>
-<p><em>Insert (n+1)n/2 clang optimization</em></p>
-<p>The more you understand a program, the more you can cleverly optimize it.
-Take the following example:</p>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/languages/nim.min.js"></script>
+<h1>Top 5 of the best datastructures</h1>
+<p>Number 2 might suprise you!</p>
+<p><a href="https://en.wikipedia.org/wiki/Data_structure">Datastructure</a> are ways for a computer to represent a bunch of data. There
+are a lot of different datastructure that have different purpose.
+I will present 5 datastructure that I find cool because of their properties
+or just because they might not be well know (so no hash tables or double linked list here!)</p>
+<p>They are sorted in a semi-random order to order to give some tension to the article.</p>
+<h2>Number 5 - Ropes</h2>
+<p>While ropes are not the most useful structure (unless you're building a text editor), they're pretty neat and can
+inspire you to find new datastructure when faced with a new problem, hence their number 5 spot.</p>
+<p>Ropes are a binary tree-like datastructure where the leafs contains strings and the length of strings.
+The branches of the tree contain the total length of the substree.</p>
+<p>Using this property, if you know the position of a cursor in a string, you can insert new strings
+at arbitrary position in the tree in O(log(n)) time as you just need to update the lengths along the way.</p>
+<p>Same does for deletion of elements. Access of a character at an index is also O(log(n)).
+String concatenation is done in constant time however as you just need to concatenate the 2 trees.</p>
+<p>You just need to rebalance the tree in O(n) from time to time to ensure that the depth stays about O(log(n)),
+which might not remain always true is you keep inserting strings in poor spots.</p>
+<p>All in all, if you need a datastructure that represents an ordered set of elements with fast insertion and deletion
+at any index, a rope is the structure for you!</p>
+<p>What? You want an implementation example?</p>
+<p>I'm really too lazy to write one, but the Nim standard library has a neat rope implementation that you can checkout.</p>
+<p><a href="https://nim-lang.org/docs/ropes.html">Documentation</a></p>
+<p><a href="https://github.com/nim-lang/Nim/blob/version-1-6/lib/pure/ropes.nim">Implemementation</a></p>
+<p>Don't be scared by Nim, it's just sparkling python with some type annotations.</p>
+<p>How to access item at character i:</p>
+<pre><code class="language-nim">
+type
+  Rope* {.acyclic.} = ref object
+    left, right: Rope
+    length: int
+    data: string # not empty if a leaf
+
+proc `[]`*(r: Rope, i: int): char
+  var x = r
+  var j = i
+  if x == nil or i &lt; 0 or i &gt;= r.len: return
+  while true:
+    if x != nil and x.data.len &gt; 0:
+      return x.data[j] # leaf reached
+    else: # explore left or right side
+      if x.left.length &gt; j:
+        x = x.left
+      else:
+        j -= x.left.length
+        x = x.right
+</code></pre>
+<p>Note that this implementation didn't bother having arbitrary position insertion.</p>
+<h2>Number 4 - Octotrees</h2>
+<p><em>Remember binary trees? What if we made them bigger?</em></p>
+<p>Octotrees are trees where every node has eight childrens. They are used to solve problems involving geometry and 3d space, mainly when you need to iterate over all the elements that are &quot;close&quot; to another element quickly.</p>
+<p>In order to list nearby elements of a given node, you just need to check the 27 cubic areas that contain the element and the ones around him.</p>
+<p>This makes the complexity linear in the number of nearby elements. Even if you have a lot of element in your 3d space, you don't need to check all of them to identify close elements.</p>
+<p>The only issue with the structure is that there is added complexity when moving elements around. You need to change which node contains a given element when crossing some space boundaries.</p>
+<p>This make it a O(log(n)) operation in the worst case but it's still fine in general.</p>
+<p>The size of the subdivision of the tree depends on your octotree implementation. You can go for constant size areas if you know that your elements are evenly distributed or you can build octotrees where there are more subdivisions at spots with more stuff.</p>
+<p>The latter are more efficient for enumerating neighbours as you have less elements to consider in dense areas, but have a larger overhead when trying to move elements around as you have to rebuild branches of the tree instead of just moving the places of the elements.</p>
+<p>I love octotrees because of how useful they are to build various simulations. For particle simulation, they are crucial if you want to be able to detect collisions between stuff as it's not feasible iterating over all pairs of particles to detect interactions when you have a large (&gt;1000) of them.</p>
+<p>They are typically used to answer questions where objects have positions and there is a relevant idea of proximity between the objects. For example, when finding the closest pair of points in a 3d space (or the closest pair of stars with a quad tree).</p>
+<h2>Number 3 - Disjointed Sets</h2>
+<p>Disjointed sets are a structure that represent grouping of elements. They are mainly known because of their use for computing connected components of graphs.</p>
+<p>It's a structure that does not represent data itself but relations between data.</p>
+<p>Let's say you have a graph and want to find it's connected components.</p>
+<p>You start by storing every node in a structure like this:</p>
+<pre><code class="language-nim">
+type DisjointedSet* {.acyclic.} = ref object
+    parent: DisjointedSet
+    size: int
+    rank: int
+
+proc makeSet(): DisjointedSet =
+    result.parent = nil
+    result.size = 1
+    result.rank = 0
+
+proc Hash(x: DisjointedSet): DisjointedSet =
+    if x.parent == nil: return x
+    x.parent = Hash(x.parent)
+    return x.parent
+
+proc Merge(a: DisjointedSet, b: DisjointedSet): DisjointedSet =
+    let root_a = a.Hash()
+    let root_b = b.Hash()
+    # In practice, pick the root with the lowest rank
+    # to minimize tree depth
+    # So, you might flip root_a and root_b here based on ranks 
+    root_a.parent = root_b
+    if root_a.rank == root_b.rank:
+        root_a.rank += 1
+</code></pre>
+<p>The idea is that parent stores a reference to another element of the set in order to form a chain that points to an final element (which is final because it points to <code>nil</code>).</p>
+<p>To check that how elements are in the same set, you check that they have the same parent element. What makes this structure clever is that as you go through the chain to find the root, you can replace the <code>parent</code> field so that subsequent calls are performed in constant time.</p>
+<h2>Number 2 - Functions</h2>
+<p>What functions? Functions are not a datastructure! I already hear you say.
+Well, not in every language, but in languages were functions are first class (i.e you can use them as arguments of other functions),
+functions can store data and thus behave as data structures.</p>
+<p>Consider the following example:</p>
 <pre><code class="language-js">
-function fibo(n){
-    if(n == 0) return 0;
-    if(n == 1) return 1;
-    return fibo(n-1) + fibo(n-2);
+function makeStruct(){
+    let a = 0;
+    let b = 0;
+    function struct(field, mode, value){
+        if(field == &quot;a&quot; &amp;&amp; mode) return a;
+        if(field == &quot;b&quot; &amp;&amp; mode) return b;
+        if(field == &quot;a&quot;) a = value;
+        if(field == &quot;b&quot;) b = value;
+    }
+    return struct;
 }
 
 </code></pre>
-<p>It's clear that the complexity of the function is crap for what it does. A simple analysis can show that the function is pure and that the result can be cached in order to achieve an \[ O(n) \].</p>
+<p>Well, <code>makeStruct</code> returns a struct like object with 2 fields that you can read and write!</p>
+<p>What I really like about functions and what put them so high in this list is that they can be used
+to build a number of other datastructure.</p>
+<p>Consider this implementation of linked lists:</p>
 <pre><code class="language-js">
-let c = {0:0,1:1};
-function fibo(n){
-    if(n in c) return c[n];
-    c[n-1] = fibo(n-1);
-    c[n-2] = fibo(n-2);
-    return c[n-1] + c[n-2];
-}
+let makeList = () =&gt; (() =&gt; {}); 
+let append = (lst, element) =&gt; (m) =&gt; {
+    if(m) return lst;
+    return element;
+};
+
+let head = (lst) =&gt; lst(false);
+let tail = (lst) =&gt; lst(true);
 
 </code></pre>
-<p>The optimization opportunities are endless:</p>
-<ul>
-<li>Converting values to references to avoid copies</li>
-<li>Moving repeated computation outside of loops</li>
-<li>Replacing datastructures by other ones based on use</li>
-<li>...</li>
-</ul>
-<h3>Cool visualization tools</h3>
-<p><em>Discrete Bycelium self promotion</em></p>
-<p>When you have access to the AST of a language, you can really do anything with it including building cool ways to visualize your codebase.</p>
-<p>Want a graph of all the function calls? It's just a depth-first search away!</p>
-<p>Want to see the hotest code paths of a program? That just a few lines of code inside your interpreter!</p>
-<p>Once again, there are many cool things that can be done, which is why I especially like languages that expose features that can interact with the code of the language.
-For example:</p>
-<ul>
-<li>Python's <code>ast</code> package</li>
-<li>Nim's macro system</li>
-<li>the <a href="https://en.wikipedia.org/wiki/Jonathan_Blow#2017%E2%80%93present:_untitled_programming_language,_untitled_sokoban_game,_and_Braid,_Anniversary_Edition">JAI language</a> as a whole</li>
-<li>Lisp</li>
-</ul>
+<p>Now, consider this implementation of binary trees:</p>
+<pre><code class="language-js">
+let makeNode = (n) =&gt; n; // a node is just a value
+let makeTree = (left,right) =&gt; (m) =&gt; {
+    if(m == &quot;left&quot;) return left;
+    if(m == &quot;right&quot;) return right;
+}
+let right = (t) =&gt; t(&quot;right&quot;)
+let left = (t) =&gt; t(&quot;left&quot;)
+</code></pre>
+<p>And if we have binary trees and linked lists, we can build all sorts of other structures such as dictionnaries (with O(log(n)) lookup times), double linked lists, octotrees, etc...</p>
+<p>Because an idea as simple as a function can do so many things, I believe function earned their spot as number 2 in this list.</p>
+<p>Note however than you cannot build an classic variable size array with constant lookup time using this technique. Arrays can however be simulated with trees and you can still have an O(log(n)) access time which is pretty reasonable.</p>
+<p>This is because searching data at a specific index is an operation that cannot be implemented with the primitives available (function declarations, function calls, if, for and while loops). Only ifs can be used to operate on our data in constant time, so we need to lookup data indexed by integer-like object by passing these integers through a series of if-based tests, hence the logarithmic time.</p>
+<h2>Number 1 - Segment Trees</h2>
+<p>Segment trees are my favorite datastructure. When I first heard of them, I was supprised such a thing existed. And they make a lot of competitive programming problems trivial.</p>
+<p>You can read and edit them in logarithmic time like arrays and build them in linear time.</p>
+<p>Segment trees can quickly (in logarithmic time) perform associative operations on data ranges (including sums, multiplications, finding a max, gcd, etc...).</p>
+<p>They take up not a lot more space than a regular array (4 times the space).</p>
+<p>I have a simple (also written in Nim) implementation of Segment trees with decent documentation.</p>
+<p><a href="https://github.com/vanyle/RangeQueriesNim/blob/master/src/rangequeries.nim">Implementation</a></p>
+<p><a href="https://vanyle.github.io/RangeQueriesNim/rangequeries.html">Documentation</a></p>
+<p>The idea is that you can store your data as a binary tree (with leafs containing the values of the segment tree) and by storing at every node the result of the associative operation on all the children.</p>
+<p>Because the operation is associative, if you need to compute it over a range, you just select the branches that correspond to parts of the range you are interested in and apply the operation on these. You will need to consider at most a logarithmic number of nodes.</p>
+<p>As you know, \[1 + 2 + 4 + 8 + ... + 2^k = 2^{k+1}-1 \] where k is the smallest value such that \[ 2^{k+1} &gt; n \] (n is the total number of elements stored in the structure). So, the segment tree has a memory footprint that is linear in n as every level of the tree contains double the amount of the previous level.</p>
+<p>When modifying an element however, you'll need to recompute the values of the branches above it hence the logarithmic time for element modification.</p>
+<p>Why are segment trees so awesome?
+Well, go try <a href="https://cses.fi/problemset/task/1143">CSES problem</a> and comeback afterwards !</p>
+<p>Tip: Consider <code>min</code> as the associative operation.</p>
+<p>If your operation is bijective and it's inverse can be computed in constant time, you can even modify whole ranges of values in log time !</p>
+<p>To do this, instead of storing the values of elements as leafs, you can consider that the whole path of nodes taken to reach an element are values that you have to operate together to get the value of the element at the bottom.</p>
+<p>Using this representation, you can just modify an element in a branch the change the result of everything below quickly.
+However, if you have the ability to quickly modify a range, you lose the ability to quickly apply the operation over a range and get the result, so you need to choose between these two.</p>
 
 	</section>
 	<footer>
