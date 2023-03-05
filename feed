@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+<title>Antoine's blog</title>
+  <link>https://vanyle.github.io</link>
+  <description>A blog about tech, cooking and random interesting things</description>
+  <item>
+    <title>Cooking and chemistry</title>
+    <link>https://vanyle.github.io/.\posts\cooking_chemistry.html</link>
+    <description>Like most people except this guy, I like food.</description>
+  </item>
+  <item>
+    <title>Top 5 of the best data structures</title>
+    <link>https://vanyle.github.io/.\posts\best_datastructures.html</link>
+    <description>Number 2 might surprise you!</description>
+  </item>
+  <item>
+    <title>Building a programming language</title>
+    <link>https://vanyle.github.io/.\posts\building_programming_languages.html</link>
+    <description>If you want to build your own programming language and have no idea where to start, there is this cool website / book</description>
+  </item>
+  <item>
+    <title>        Bouncy
+</title>
+    <link>https://vanyle.github.io/.\posts\physics.html</link>
+    <description>            Click anywhere to spawn a bouncing ball!
+</description>
+  </item>
+  <item>
+    <title>A critique of content feeds curated by &quot;Popularity&quot;</title>
+    <link>https://vanyle.github.io/.\posts\critique_of_algo_feeds.html</link>
+    <description>Like a lot of people, I spend a lot of time online.</description>
+  </item>
+  <item>
+    <title>		Rings
+</title>
+    <link>https://vanyle.github.io/.\posts\rings.html</link>
+    <description>			A trippy animation based on circles.
+</description>
+  </item>
+  <item>
+    <title>		Projectile
+</title>
+    <link>https://vanyle.github.io/.\posts\projectile.html</link>
+    <description>        	The curve of a projectile based on initial angle with no velocity. The maximal height range makes a cool shape.
+</description>
+  </item>
+  <item>
+    <title>		Sudoku
+</title>
+    <link>https://vanyle.github.io/.\posts\sudoku.html</link>
+    <description>			A sudoku solver.
+</description>
+  </item>
+  <item>
+    <title>		Texts
+</title>
+    <link>https://vanyle.github.io/.\posts\texts.html</link>
+    <description>			An autological word renderer
+</description>
+  </item>
+  <item>
+    <title>            OuterSpace
+</title>
+    <link>https://vanyle.github.io/.\posts\outerspace.html</link>
+    <description>            	A physics simulation of planets with Newtonian physics.
+</description>
+  </item>
+  <item>
+    <title>		Cube
+</title>
+    <link>https://vanyle.github.io/.\posts\cube.html</link>
+    <description>			A Cube rendered with a custom minimal 3d engine.
+</description>
+  </item>
+  <item>
+    <title>		ODE
+</title>
+    <link>https://vanyle.github.io/.\posts\ode.html</link>
+    <description>			A representation of an object moving in a position/speed
+</description>
+  </item>
+  <item>
+    <title>		Neural networks
+</title>
+    <link>https://vanyle.github.io/.\posts\neuraldoc_fancy.html</link>
+    <description>			A basic interactive introduction to neural networks
+</description>
+  </item>
+  <item>
+    <title>		Fractalo 2
+</title>
+    <link>https://vanyle.github.io/.\posts\fractalo_2.html</link>
+    <description>		Recursive fractal renderer
+</description>
+  </item>
+  <item>
+    <title>		Droplets
+</title>
+    <link>https://vanyle.github.io/.\posts\droplets.html</link>
+    <description>			A colorful water droplet animation
+</description>
+  </item>
+  <item>
+    <title>		Cute
+</title>
+    <link>https://vanyle.github.io/.\posts\galaxy.html</link>
+    <description>			A cool looking animation using follower curves
+</description>
+  </item>
+  <item>
+    <title>		Fields
+</title>
+    <link>https://vanyle.github.io/.\posts\flux.html</link>
+    <description>			Ce jeu est une introduction interactive aux champs de vecteurs. Vous voilà prévenus !
+</description>
+  </item>
+  <item>
+    <title>	Fractalo!
+</title>
+    <link>https://vanyle.github.io/.\posts\fractalo.html</link>
+    <description>	Julia style fractal renderer
+</description>
+  </item>
+  <item>
+    <title>	Game Of Life
+</title>
+    <link>https://vanyle.github.io/.\posts\gameoflife.html</link>
+    <description>	A game of life renderer with a random start.
+</description>
+  </item>
+</channel>
+</rss>
