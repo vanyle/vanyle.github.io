@@ -182,6 +182,11 @@ footer{
             description: `If you want to build your own programming language and have no idea where to start, there is this cool website / book`
         },
             {
+            title: `Cooking and chemistry`,
+            url: `./posts/cooking_chemistry.html`,
+            description: `Like most people except this guy, I like food.`
+        },
+            {
             title: `A critique of content feeds curated by &quot;Popularity&quot;`,
             url: `./posts/critique_of_algo_feeds.html`,
             description: `Like a lot of people, I spend a lot of time online.`
@@ -331,7 +336,7 @@ footer{
 
 	</section>
 	<footer>
-			<p> © 2022 - Antoine Delègue - Powered by ASG</p>
+			<p> © 2023 - Antoine Delègue - Powered by ASG</p>
 
 	</footer>
 </body>
@@ -378,6 +383,39 @@ footer{
 			}
 
 			// Live reload. Try to reconnect when the connection fails.
+						if(location.hostname === "localhost"){
+				window.ws = null;
+				window.wsIsClosed = true;
+				let connectionMaker = () => {
+					if(wsIsClosed){
+						wsIsClosed = false;
+						try{
+							console.log("connecting...");
+							ws = new WebSocket("ws://"+location.host+"/ws");
+						}catch(err){} // don't spam the console.
+						ws.onmessage = (msg) => {
+							wsIsClosed = false;
+							if(msg.data == "reload"){
+								location.reload();
+							}else{
+								console.log(msg);
+							}
+						}
+						ws.onopen = () => {
+							console.log("Connected!");
+							wsIsClosed = false;
+						}
+						ws.onerror = () => {
+							wsIsClosed = true;
+						};
+						ws.onclose = () => {
+							wsIsClosed = true;
+						};
+					}
+				};
+				setInterval(connectionMaker, 1000);
+				connectionMaker();
+			}
 			
 		});
 	</script>

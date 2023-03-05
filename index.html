@@ -181,6 +181,18 @@ footer{
         </div>
 </div>
 </a>
+<a href=".\posts\cooking_chemistry.html">
+<div class='card'>
+        <h3 class='title'>
+        Cooking and chemistry		</h3>
+        <div class="time">05/03/23</div>
+        <p>
+        Like most people except this guy, I like food.		</p>
+        <div class="time">
+        About 4 minutes to read
+        </div>
+</div>
+</a>
 <a href=".\posts\critique_of_algo_feeds.html">
 <div class='card'>
         <h3 class='title'>
@@ -420,7 +432,7 @@ footer{
 
 	</section>
 	<footer>
-			<p> © 2022 - Antoine Delègue - Powered by ASG</p>
+			<p> © 2023 - Antoine Delègue - Powered by ASG</p>
 
 	</footer>
 </body>
@@ -467,6 +479,39 @@ footer{
 			}
 
 			// Live reload. Try to reconnect when the connection fails.
+						if(location.hostname === "localhost"){
+				window.ws = null;
+				window.wsIsClosed = true;
+				let connectionMaker = () => {
+					if(wsIsClosed){
+						wsIsClosed = false;
+						try{
+							console.log("connecting...");
+							ws = new WebSocket("ws://"+location.host+"/ws");
+						}catch(err){} // don't spam the console.
+						ws.onmessage = (msg) => {
+							wsIsClosed = false;
+							if(msg.data == "reload"){
+								location.reload();
+							}else{
+								console.log(msg);
+							}
+						}
+						ws.onopen = () => {
+							console.log("Connected!");
+							wsIsClosed = false;
+						}
+						ws.onerror = () => {
+							wsIsClosed = true;
+						};
+						ws.onclose = () => {
+							wsIsClosed = true;
+						};
+					}
+				};
+				setInterval(connectionMaker, 1000);
+				connectionMaker();
+			}
 			
 		});
 	</script>

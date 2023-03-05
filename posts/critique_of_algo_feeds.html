@@ -230,7 +230,7 @@ one. Check the table above for some example of recency based feeds (RSS in parti
 
 	</section>
 	<footer>
-			<p> © 2022 - Antoine Delègue - Powered by ASG</p>
+			<p> © 2023 - Antoine Delègue - Powered by ASG</p>
 
 	</footer>
 </body>
@@ -277,6 +277,39 @@ one. Check the table above for some example of recency based feeds (RSS in parti
 			}
 
 			// Live reload. Try to reconnect when the connection fails.
+						if(location.hostname === "localhost"){
+				window.ws = null;
+				window.wsIsClosed = true;
+				let connectionMaker = () => {
+					if(wsIsClosed){
+						wsIsClosed = false;
+						try{
+							console.log("connecting...");
+							ws = new WebSocket("ws://"+location.host+"/ws");
+						}catch(err){} // don't spam the console.
+						ws.onmessage = (msg) => {
+							wsIsClosed = false;
+							if(msg.data == "reload"){
+								location.reload();
+							}else{
+								console.log(msg);
+							}
+						}
+						ws.onopen = () => {
+							console.log("Connected!");
+							wsIsClosed = false;
+						}
+						ws.onerror = () => {
+							wsIsClosed = true;
+						};
+						ws.onclose = () => {
+							wsIsClosed = true;
+						};
+					}
+				};
+				setInterval(connectionMaker, 1000);
+				connectionMaker();
+			}
 			
 		});
 	</script>
