@@ -5,6 +5,12 @@
   <link>https://vanyle.github.io</link>
   <description>A blog about tech, cooking and random interesting things</description>
   <item>
+    <title>Layout Algorithms</title>
+    <link>https://vanyle.github.io/.\posts\layout_algorithms.html</link>
+    <description>A story about shuffling rectangles around</description>
+    <pubDate>07/06/23 00:26:25</pubDate>
+  </item>
+  <item>
     <title>Cooking and chemistry</title>
     <link>https://vanyle.github.io/.\posts\cooking_chemistry.html</link>
     <description>Like most people except this guy, I like food.</description>
@@ -31,10 +37,12 @@
     <pubDate>05/07/22 21:56:57</pubDate>
   </item>
   <item>
-    <title>A critique of content feeds curated by &quot;Popularity&quot;</title>
-    <link>https://vanyle.github.io/.\posts\critique_of_algo_feeds.html</link>
-    <description>Like a lot of people, I spend a lot of time online.</description>
-    <pubDate>05/07/22 21:54:58</pubDate>
+    <title>		Texts
+</title>
+    <link>https://vanyle.github.io/.\posts\texts.html</link>
+    <description>			An autological word renderer
+</description>
+    <pubDate>05/07/22 21:59:44</pubDate>
   </item>
   <item>
     <title>		Rings
@@ -53,20 +61,18 @@
     <pubDate>05/07/22 21:58:00</pubDate>
   </item>
   <item>
+    <title>A critique of content feeds curated by &quot;Popularity&quot;</title>
+    <link>https://vanyle.github.io/.\posts\critique_of_algo_feeds.html</link>
+    <description>Like a lot of people, I spend a lot of time online.</description>
+    <pubDate>05/07/22 21:54:58</pubDate>
+  </item>
+  <item>
     <title>		Sudoku
 </title>
     <link>https://vanyle.github.io/.\posts\sudoku.html</link>
     <description>			A sudoku solver.
 </description>
     <pubDate>05/07/22 21:59:26</pubDate>
-  </item>
-  <item>
-    <title>		Texts
-</title>
-    <link>https://vanyle.github.io/.\posts\texts.html</link>
-    <description>			An autological word renderer
-</description>
-    <pubDate>05/07/22 21:59:44</pubDate>
   </item>
   <item>
     <title>            OuterSpace
@@ -77,12 +83,12 @@
     <pubDate>04/07/22 00:37:41</pubDate>
   </item>
   <item>
-    <title>		Cube
+    <title>		Droplets
 </title>
-    <link>https://vanyle.github.io/.\posts\cube.html</link>
-    <description>			A Cube rendered with a custom minimal 3d engine.
+    <link>https://vanyle.github.io/.\posts\droplets.html</link>
+    <description>			A colorful water droplet animation
 </description>
-    <pubDate>03/07/22 23:50:17</pubDate>
+    <pubDate>03/07/22 23:53:55</pubDate>
   </item>
   <item>
     <title>		ODE
@@ -101,22 +107,6 @@
     <pubDate>03/07/22 23:57:08</pubDate>
   </item>
   <item>
-    <title>		Fractalo 2
-</title>
-    <link>https://vanyle.github.io/.\posts\fractalo_2.html</link>
-    <description>		Recursive fractal renderer
-</description>
-    <pubDate>03/07/22 23:55:47</pubDate>
-  </item>
-  <item>
-    <title>		Droplets
-</title>
-    <link>https://vanyle.github.io/.\posts\droplets.html</link>
-    <description>			A colorful water droplet animation
-</description>
-    <pubDate>03/07/22 23:53:55</pubDate>
-  </item>
-  <item>
     <title>		Cute
 </title>
     <link>https://vanyle.github.io/.\posts\galaxy.html</link>
@@ -133,12 +123,28 @@
     <pubDate>03/07/22 23:54:53</pubDate>
   </item>
   <item>
+    <title>		Cube
+</title>
+    <link>https://vanyle.github.io/.\posts\cube.html</link>
+    <description>			A Cube rendered with a custom minimal 3d engine.
+</description>
+    <pubDate>03/07/22 23:50:17</pubDate>
+  </item>
+  <item>
     <title>	Fractalo!
 </title>
     <link>https://vanyle.github.io/.\posts\fractalo.html</link>
     <description>	Julia style fractal renderer
 </description>
     <pubDate>03/07/22 23:55:30</pubDate>
+  </item>
+  <item>
+    <title>		Fractalo 2
+</title>
+    <link>https://vanyle.github.io/.\posts\fractalo_2.html</link>
+    <description>		Recursive fractal renderer
+</description>
+    <pubDate>03/07/22 23:55:47</pubDate>
   </item>
   <item>
     <title>	Game Of Life
