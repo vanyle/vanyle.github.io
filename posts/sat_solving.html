@@ -210,7 +210,7 @@ else:
     echo &quot;No solution!&quot;
 </code></pre>
 <p>We just everwrite the <code>and</code>, <code>or</code> and <code>not</code> operators for the <code>Expression</code> type to build a tree.
-Know, we need to write the <code>solve</code> function.</p>
+Now, we need to write the <code>solve</code> function.</p>
 <p>I'm using a common approch for NP-complete problems: start by doing human like deductions (think of it like solving a sudoku) and then brute-forcing over the space of allowed values (which is smaller because we deduce that some values are impossible).</p>
 <p>The brute force is kinda boring and looks like this:</p>
 <pre><code class="language-nim">
@@ -238,7 +238,7 @@ while not eval(exp): # We want to solve exp, our SAT-expression.
         unbound[i].value = binaryCounter[i]
 </code></pre>
 <p>The interesting part is the deduction engine.</p>
-<p>The idea is that we infer constraits on parts of the expression in order to make deductions.
+<p>The idea is that we infer constraints on parts of the expression in order to make deductions.
 For example, if <code>A and B</code> is true, then, we deduce that <code>A</code> is true and <code>B</code> is true.
 Also, if <code>A and B</code> is false and <code>A</code> is true, than <code>B</code> must be false.</p>
 <p>Using this strategy, and by first assuming that the whole expression E is true, we deduce the values of every subcomponent.</p>
