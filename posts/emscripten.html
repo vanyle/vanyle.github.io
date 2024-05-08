@@ -168,9 +168,9 @@ download it later if it is very good and the desktop version has more features).
 <p>The engine has the following dependencies: GLFW (for managing windows), OpenGL (for drawing to the screen), Lua JIT for scripting, OpenAL
 for audio and uses threads. Moreover, we read and write data from the filesystem to save progress. These are a bit low-level, but I wanted
 to learn to use them instead of relying on higher level libraries like SDL which is also why I'm making an engine and not a game directly.</p>
-<p>Let's see how much work there is to do:</p>
+<p>Let's see how much work there was to do:</p>
 <h2>GLFW</h2>
-<p>GLFW is <a href="https://emscripten.org/docs/compiling/Contrib-Ports.html">already available</a> with emscripten, I just need to use a compilation flag <code>-sUSE_GLFW=3</code></p>
+<p>GLFW is <a href="https://emscripten.org/docs/compiling/Contrib-Ports.html">already available</a> with emscripten, I just needed to use a compilation flag <code>-sUSE_GLFW=3</code></p>
 <h2>OpenGL</h2>
 <p>OpenGL <a href="https://emscripten.org/docs/porting/multimedia_and_graphics/OpenGL-support.html">is also available</a>, but not all functions and GLSL shader construct are available.
 I needed to add a preprocessor to my shader parser that emulates some shader constructs on the Web (and the <code>#version</code> directive)
@@ -180,30 +180,30 @@ I dropped support for geometry shaders as they are slow anyway.</p>
 <h2>Scripting</h2>
 <p>Scripting was harder. Vectarine uses the <a href="https://www.lua.org/">Lua language</a> for scripting. For executing Lua, we use <a href="https://luajit.org/">LuaJIT</a>.
 LuaJIT is a just-in-time compiler, it reads the code, compiles it on the fly to CPU instructions and executes them. These CPU instructions depend on the CPU
-type used. On MacOSX, we can generte ARM instructions and on Windows, Intel instructions, but on the web, the instructions are wasm, a virtual instruction set
+type used. On MacOSX, we can generate ARM instructions and on Windows, Intel instructions, but on the web, the instructions are wasm, a virtual instruction set
 that is interpreted by the browser. LuaJIT does not support generating this kind of instructions.</p>
 <p>So I decided to use regular Lua for the web. This is slower as the language is fully interpreted, but it's good enough. Because Nim supports arbitrary compile-time
-execution, I write a tiny build-system in Nim that compiles Lua when the <code>emscripten</code> or the <code>noJit</code> flag is provided and links Lua against Nim.</p>
+execution, I wrote a tiny build-system in Nim that compiles Lua when the <code>emscripten</code> or the <code>noJit</code> flag is provided and links Lua against Nim.</p>
 <p>Lua is small and only consist of about 30 files. So I store their path in an array and loop over it to compile everthing.</p>
 <p>Lua 5.1 and LuaJIT behave exactly the same in my tests, so I can write the same scripts and have the same behavior on the web and the desktop!</p>
 <h2>Threads</h2>
-<p>I got a lot of issues with threading on the web. This is because I did not read <a href="https://emscripten.org/docs/porting/pthreads.html">the documentation</a> properly.
+<p>I had a lot of issues with threading on the web. This is because I did not read <a href="https://emscripten.org/docs/porting/pthreads.html">the documentation</a> properly.
 To have threads, you need to compile with <code>-pthreads</code> and pass the right HTTP headers with serving the content. On itch.io, there is a toggle to
 pass these headers with publishing your game.</p>
 <p>Everything should thus work.</p>
 <h2>Filesystem access</h2>
 <p>On the web, there is no real filesystem. <a href="https://emscripten.org/docs/porting/files/file_systems_overview.html">Emscripten tries to emulate it</a> in a weird way that is a sync/async mess.</p>
 <p>Functions like <code>fopen</code> and <code>fread</code> and <code>fwrite</code> will work but I want to persist changes between page reloads, so I cannot use the default filesystem backend (MemFS).
-I decided to use the IDBFS backend which is the only one currenlty available to persist data in the browser.</p>
+I decided to use the IDBFS backend which is the only one currently available to persist data in the browser.</p>
 <p>However, I need to call <code>FS.syncfs()</code> from JavaScript to sync my changes after any edits, so I added a C/JavaScript bridge to do just that and I call <code>syncfs</code> after every write.</p>
-<p>This allows me to save and load data but I cannot use this for assets. What I do is use the <code>slurp</code> function of Nim to read files at compile-time and include them directly inside the executable. This is enabled with the <code>-d:v3dEmbed</code> flag.
-This allows me to provide only one file when distributing the game for the desktop and to easily have access to all the assets the game needs on the Web.</p>
+<p>This allowed me to save and load data but I could not use this for assets. What I did is use the <code>slurp</code> function of Nim to read files at compile-time and include them directly inside the executable. This is enabled with the <code>-d:v3dEmbed</code> flag.
+This allows vectarine to provide only one file when distributing the game for the desktop and to easily have access to all the assets the game needs on the Web.</p>
 <h2>Other concerns</h2>
 <p>There were a few other smaller issues I encountered that were easily fixed.</p>
 <p>First, opening links. When a player clicks on the credits, I want to open a tab in his browser to show them a page about me. In C, I can call <code>ShellExecuteA</code> or <code>xdg-open</code> depending on the platform. On the web, I wrote a JavaScript bridge and once in JavaScript, opening a tab is trivial.</p>
 <p>Second, getting an accurate time. For simulating physics accuratly, I need to get the time with as much precision as possible. Thankfully emscripten already provides a function for that, <code>emscripten_get_now</code>, so I used it.</p>
 <p>Finally, I was ready to compile!</p>
-<p>I used the following command for reference (except from a powershell script):</p>
+<p>I used the following command for reference (excerpt from a powershell script):</p>
 <pre><code class="language-bash">$shell = $PSScriptRoot + &quot;/wasm_shell.html&quot;
 $output = $PSScriptRoot + &quot;/../builds/index.html&quot;
 $outputDir = $PSScriptRoot + &quot;/../builds&quot;
@@ -229,7 +229,7 @@ nim c --nimcache:$nimcache --os:linux --cc:clang `
     --passL=$passL `
     $args
 </code></pre>
-<p>And finally, I got a playable game with Audio, assets and scripting working!</p>
+<p>And finally, I got a playable game with audio, assets and scripting working!</p>
 <p>You can find it here, it is a pretty hard puzzle game about Wang tiles: <a href="https://vanyle0.itch.io/domino-demon">https://vanyle0.itch.io/domino-demon</a></p>
 <p>I plan to release more games on itch now that the engine has all the features I'd expect!
 Even though the TODO list is still growing as I'm getting more ideas of things to implement every day ^^</p>
