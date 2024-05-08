@@ -156,158 +156,83 @@ footer{
 	<section>
 	
 
-<h1>Layout Algorithms</h1>
-<p><em>A story about shuffling rectangles around</em></p>
-<p>I'm currently writing a game engine in Nim.
-To test the game engine, I'm also making a small game on the side to test all of the features.
-This is because I find writing engine more fun than actually making games.</p>
-<p>I know, I'm weird, get used to it.</p>
-<p>At some point, I realized that I needed a way to build guis for the menu of my game.
-I already had <a href="https://github.com/ocornut/imgui">imgui</a> installed as a dependency, but imgui is not really made for
-production guis (even though it can be used as so), as it can be hard to customize and
-most interfaces made with imgui have an imgui vibe (like <a href="http://www.radgametools.com/telemetry.htm">Telemetry from Rad Game Tools</a> for example)</p>
-<p>Moreover, imgui introduced complexities in the building process as it forced me to use the C++ backend.</p>
-<p>So, the planets had aligned for me to write a custom GUI library inside my engine.
-However, I felt like if I was going to write a GUI renderer, I might as well include an HTML-like renderer,
-so that guis are easy to write and customize.</p>
-<p>First, I designed a small set of tags that will be used for my XML.</p>
-<pre><code class="language-xml">&lt;body&gt;&lt;/body&gt; &lt;!-- positions the gui relative to the screen --&gt;
-&lt;view&gt;&lt;/view&gt; &lt;!-- div --&gt;
-&lt;text&gt;&lt;/text&gt; &lt;!-- render text --&gt;
-&lt;button&gt;&lt;/button&gt; &lt;!-- self descriptive --&gt;
+<h1>Emscripten</h1>
+<p><em>Writing cross-platform code with Nim, C and Emscripten.</em></p>
+<p>I was working on a game engine called <a href="http://vectarine.vanyle.netlib.re/">Vectarine</a> that I have not yet released.</p>
+<p>This is a game engine designed to win game jams on <a href="https://itch.io">itch.io</a>, a website to host games, game jams and game assets.</p>
+<p>There are a lot of games on itch. To stand out, you need to make your game pretty of course, but you also need to make it easy to play.
+People don't want to download and unzip a game every time they want to play something, they want to try it in their browser (and maybe
+download it later if it is very good and the desktop version has more features).</p>
+<p>Thus, I needed to port my game engine, written in <a href="https://nim-lang.org/">Nim</a> (a language that compiles to C) to the web.</p>
+<p>I already knew about <a href="https://emscripten.org/">Emscripten</a> which provides a standard C library and compiling toolchain that targets the web.</p>
+<p>The engine has the following dependencies: GLFW (for managing windows), OpenGL (for drawing to the screen), Lua JIT for scripting, OpenAL
+for audio and uses threads. Moreover, we read and write data from the filesystem to save progress. These are a bit low-level, but I wanted
+to learn to use them instead of relying on higher level libraries like SDL which is also why I'm making an engine and not a game directly.</p>
+<p>Let's see how much work there is to do:</p>
+<h2>GLFW</h2>
+<p>GLFW is <a href="https://emscripten.org/docs/compiling/Contrib-Ports.html">already available</a> with emscripten, I just need to use a compilation flag <code>-sUSE_GLFW=3</code></p>
+<h2>OpenGL</h2>
+<p>OpenGL <a href="https://emscripten.org/docs/porting/multimedia_and_graphics/OpenGL-support.html">is also available</a>, but not all functions and GLSL shader construct are available.
+I needed to add a preprocessor to my shader parser that emulates some shader constructs on the Web (and the <code>#version</code> directive)
+I dropped support for geometry shaders as they are slow anyway.</p>
+<h2>Audio and Sound</h2>
+<p>OpenAL <a href="https://emscripten.org/docs/porting/Audio.html">is available</a>! Nothing do to, it worked out of the box!</p>
+<h2>Scripting</h2>
+<p>Scripting was harder. Vectarine uses the <a href="https://www.lua.org/">Lua language</a> for scripting. For executing Lua, we use <a href="https://luajit.org/">LuaJIT</a>.
+LuaJIT is a just-in-time compiler, it reads the code, compiles it on the fly to CPU instructions and executes them. These CPU instructions depend on the CPU
+type used. On MacOSX, we can generte ARM instructions and on Windows, Intel instructions, but on the web, the instructions are wasm, a virtual instruction set
+that is interpreted by the browser. LuaJIT does not support generating this kind of instructions.</p>
+<p>So I decided to use regular Lua for the web. This is slower as the language is fully interpreted, but it's good enough. Because Nim supports arbitrary compile-time
+execution, I write a tiny build-system in Nim that compiles Lua when the <code>emscripten</code> or the <code>noJit</code> flag is provided and links Lua against Nim.</p>
+<p>Lua is small and only consist of about 30 files. So I store their path in an array and loop over it to compile everthing.</p>
+<p>Lua 5.1 and LuaJIT behave exactly the same in my tests, so I can write the same scripts and have the same behavior on the web and the desktop!</p>
+<h2>Threads</h2>
+<p>I got a lot of issues with threading on the web. This is because I did not read <a href="https://emscripten.org/docs/porting/pthreads.html">the documentation</a> properly.
+To have threads, you need to compile with <code>-pthreads</code> and pass the right HTTP headers with serving the content. On itch.io, there is a toggle to
+pass these headers with publishing your game.</p>
+<p>Everything should thus work.</p>
+<h2>Filesystem access</h2>
+<p>On the web, there is no real filesystem. <a href="https://emscripten.org/docs/porting/files/file_systems_overview.html">Emscripten tries to emulate it</a> in a weird way that is a sync/async mess.</p>
+<p>Functions like <code>fopen</code> and <code>fread</code> and <code>fwrite</code> will work but I want to persist changes between page reloads, so I cannot use the default filesystem backend (MemFS).
+I decided to use the IDBFS backend which is the only one currenlty available to persist data in the browser.</p>
+<p>However, I need to call <code>FS.syncfs()</code> from JavaScript to sync my changes after any edits, so I added a C/JavaScript bridge to do just that and I call <code>syncfs</code> after every write.</p>
+<p>This allows me to save and load data but I cannot use this for assets. What I do is use the <code>slurp</code> function of Nim to read files at compile-time and include them directly inside the executable. This is enabled with the <code>-d:v3dEmbed</code> flag.
+This allows me to provide only one file when distributing the game for the desktop and to easily have access to all the assets the game needs on the Web.</p>
+<h2>Other concerns</h2>
+<p>There were a few other smaller issues I encountered that were easily fixed.</p>
+<p>First, opening links. When a player clicks on the credits, I want to open a tab in his browser to show them a page about me. In C, I can call <code>ShellExecuteA</code> or <code>xdg-open</code> depending on the platform. On the web, I wrote a JavaScript bridge and once in JavaScript, opening a tab is trivial.</p>
+<p>Second, getting an accurate time. For simulating physics accuratly, I need to get the time with as much precision as possible. Thankfully emscripten already provides a function for that, <code>emscripten_get_now</code>, so I used it.</p>
+<p>Finally, I was ready to compile!</p>
+<p>I used the following command for reference (except from a powershell script):</p>
+<pre><code class="language-bash">$shell = $PSScriptRoot + &quot;/wasm_shell.html&quot;
+$output = $PSScriptRoot + &quot;/../builds/index.html&quot;
+$outputDir = $PSScriptRoot + &quot;/../builds&quot;
+$nimcache = $PSScriptRoot + &quot;/tmp&quot;
+
+$releaseDependentOptions = &quot;&quot;
+
+if($release){
+    $releaseDependentOptions = &quot;--opt:size -d:release -d:v3dNoDebug&quot;
+}
+
+$passL = &quot;-o &quot; + $output
+$passL = $passL + &quot; --shell-file &quot; + $shell
+$passL = $passL + &quot; -fsanitize=undefined -lidbfs.js -sALLOW_MEMORY_GROWTH -sUSE_WEBGL2=1 &quot;
+$passL = $passL + &quot; -sMAX_WEBGL_VERSION=2 -sMIN_WEBGL_VERSION=2 -sPTHREAD_POOL_SIZE=4 -sPTHREAD_POOL_SIZE_STRICT=0 &quot;
+$passL = $passL + &quot; -L. --js-library web_tools/vectarine_lib.js &quot;
+
+nim c --nimcache:$nimcache --os:linux --cc:clang `
+    --clang.exe:emcc.bat --clang.linkerexe:emcc.bat --clang.cpp.exe:em++.bat --clang.cpp.linkerexe:em++.bat `
+    --listCmd --exceptions:goto --define:noSignalHandler --define:useMalloc --threads:on -d:v3dEmbed `
+    --cpu:wasm32 $releaseDependentOptions -d:emscripten `
+    --passC=&quot;-fsanitize=undefined -pthread -fno-exceptions -sSHARED_MEMORY -sALLOW_MEMORY_GROWTH &quot; `
+    --passL=$passL `
+    $args
 </code></pre>
-<p>Then, I thought of the minimal amount of properties needed to customize the tags while still being able to do all
-kind of layouts.
-As I'm working in React Native, I took inspiration from their system where every <code>div</code> is has the flex property.</p>
-<p>The result looks like this as the syntax.</p>
-<pre><code class="language-xml">&lt;!-- Example --&gt;
-&lt;view padding=&quot;0.05&quot; backgroundColor=&quot;#eeeeee&quot; borderWidth=&quot;0.005&quot; borderColor=&quot;black&quot;&gt;
-    &lt;view alignSelf=&quot;center&quot;&gt;
-        &lt;text size=&quot;0.15&quot; font=&quot;retrofont&quot;&gt;Settings&lt;/text&gt;
-    &lt;/view&gt;
-    
-    &lt;view height=&quot;0.1&quot; width=&quot;0.01&quot;&gt;&lt;/view&gt;	
-    
-    &lt;view alignSelf=&quot;start&quot; padding=&quot;0.02&quot;&gt;
-        &lt;button
-            alignSelf=&quot;start&quot;
-            backgroundColor=&quot;blue&quot;
-            padding=&quot;0.01&quot;
-            borderWidth=&quot;0.005&quot;
-            direction=&quot;row&quot;
-            borderColor=&quot;black&quot;&gt;
-            &lt;text color=&quot;white&quot;&gt;Toggle [placeholder]&lt;/text&gt;
-        &lt;/button&gt;
-        &lt;view height=&quot;0.05&quot; width=&quot;0.01&quot;&gt;&lt;/view&gt;
-        &lt;button 
-            id=&quot;fullscreen_button&quot;
-            alignSelf=&quot;start&quot;
-            backgroundColor=&quot;green&quot;
-            direction=&quot;row&quot;
-            padding=&quot;0.01&quot;
-            borderWidth=&quot;0.005&quot;
-            borderColor=&quot;black&quot;&gt;
-            &lt;text color=&quot;white&quot;&gt;Toggle Fullscreen&lt;/text&gt;
-        &lt;/button&gt;
-        &lt;view height=&quot;0.05&quot; width=&quot;0.01&quot;&gt;&lt;/view&gt;
-        &lt;button
-            id=&quot;back_button&quot;
-            alignSelf=&quot;start&quot;
-            backgroundColor=&quot;black&quot;
-            direction=&quot;row&quot;
-            padding=&quot;0.01&quot;
-            borderWidth=&quot;0.005&quot;
-            borderColor=&quot;black&quot;&gt;
-            &lt;text color=&quot;white&quot;&gt;Go Back&lt;/text&gt;
-        &lt;/button&gt;
-        &lt;view height=&quot;0.05&quot; width=&quot;0.01&quot;&gt;&lt;/view&gt;
-    &lt;/view&gt;
-&lt;/view&gt;
-&lt;/body&gt;
-
-</code></pre>
-<p>Now that we have a specification, we need to render it !
-We first convert the XML to an abstract render tree (like an AST, but for the graphics people)
-This is done using the xml parsing library provided by Nim and is straighforward, most of the code
-being error checking to make sure the user does not include text outside a text tag for example.</p>
-<p>Then, we need to convert this tree into a bunch of nested boxes. This is the meat of the layout algorithm.
-This can be done in linear time by passing twice through the tree.
-The first time, width and height of every element are computed using the following logic:</p>
-<ul>
-<li>If we are dealing with text, the size of the box is the size required by the text (+ padding)</li>
-<li>If we have a view/button/body:
-<ul>
-<li>If the direction is row
-width &lt;- sum of width of children + padding and border
-height &lt;- max of height of children + padding and border</li>
-<li>If the direction is column (the default)
-width &lt;- max of width of children + padding and border
-height &lt;- sum of height of children + padding and border</li>
-</ul>
-</li>
-<li>If the width/height property are defined, they override the previous rules</li>
-</ul>
-<p>This is not the exact algorithm, just an explanation. The padding needs to be counted twice for the left and right sides of the boxes.
-Implementing left and right padding can easily be done, but I didn't do it as it can be easily simulated using Spacer elements
-and I wanted to keep the code simple.</p>
-<p>Now that everything is sized, we can compute the position of everybody !
-This can also be done by walking though the tree once.</p>
-<p>Where as the size of the children changes the size of the parent, for the position, it's the opposite:
-The position of the parent changes the position of the children.</p>
-<p>The algorithm for the position is more complicated as we handle the row/column case but also the various alignments
-cases that flex provides, just as center, flex-start and flex-end, totaling six cases in the code.</p>
-<p>The body element is special as its position is relative to the screen and not the parent.</p>
-<p>All in all, the code for centering is pretty simple:</p>
-<pre><code class="language-nim">proc recomputePosition(
-        cmp: Component,
-        parent: Component,
-        offsetX: float32,
-        offsetY: float32,
-        deltaParentX: float32 = 0,
-        deltaParentY: float32 = 0) =
-    ## Apply the centering in the direction opposite to the layout of the parent
-    ## This is like applying the justify-content property in CSS.
-    ## We assume that the children are already correctly positionned on the other axis.
-
-    var startOffsetX = cmp.cachedOffsetX
-    var startOffsetY = cmp.cachedOffsetY
-
-    if parent.layoutDirection:
-        # ROW, Center on the Y axis
-        if cmp.alignSelf == AlignmentEnum.Center:
-            cmp.cachedOffsetY = (parent.cachedOffsetY - parent.cachedHeight / 2 + cmp.cachedHeight / 2)
-        elif cmp.alignSelf == AlignmentEnum.Start:
-            cmp.cachedOffsetY = parent.cachedOffsetY - parent.padding
-
-        cmp.cachedOffsetX += deltaParentX 
-    else:
-        # COL, Center on X axis
-        if cmp.alignSelf == AlignmentEnum.Center:
-            cmp.cachedOffsetX = (parent.cachedOffsetX + parent.cachedWidth / 2 - cmp.cachedWidth / 2)
-        elif cmp.alignSelf == AlignmentEnum.Start:
-            cmp.cachedOffsetX = parent.cachedOffsetX + parent.padding
-
-        cmp.cachedOffsetY += deltaParentY
-
-    for c in cmp.children:
-        recomputePosition(
-            c,
-            cmp,
-            cmp.cachedOffsetX,
-            cmp.cachedOffsetY,
-            cmp.cachedOffsetX - startOffsetX,
-            cmp.cachedOffsetY - startOffsetY
-        )
-</code></pre>
-<p>And using these simple building blocks, we can quickly obtained very pretty GUIs.
-And remove imgui from our dependences!</p>
-<p>Of course, a lot of features are lacking in the example above:</p>
-<ul>
-<li>Scrolling</li>
-<li>Text inputs</li>
-<li>More widgets</li>
-</ul>
-<p>But the core is there and can easily be expanded.</p>
+<p>And finally, I got a playable game with Audio, assets and scripting working!</p>
+<p>You can find it here, it is a pretty hard puzzle game about Wang tiles: <a href="https://vanyle0.itch.io/domino-demon">https://vanyle0.itch.io/domino-demon</a></p>
+<p>I plan to release more games on itch now that the engine has all the features I'd expect!
+Even though the TODO list is still growing as I'm getting more ideas of things to implement every day ^^</p>
 
 	</section>
 	<footer>
