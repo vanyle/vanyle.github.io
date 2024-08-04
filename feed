@@ -5,16 +5,22 @@
   <link>https://vanyle.github.io</link>
   <description>A blog about tech, cooking and random interesting things</description>
   <item>
-    <title>How to make compelling games?</title>
-    <link>https://vanyle.github.io/.\posts\game_design_tips.html</link>
-    <description>A game design idea concept I realized</description>
-    <pubDate>08/05/24 21:05:20</pubDate>
+    <title>Stop wasting my time</title>
+    <link>https://vanyle.github.io/.\posts\do_not_waste_my_time.html</link>
+    <description>Why I think a lot of open-source software is in a very bad state and what we can do about it.</description>
+    <pubDate>05/08/24 00:25:34</pubDate>
   </item>
   <item>
     <title>Emscripten</title>
     <link>https://vanyle.github.io/.\posts\emscripten.html</link>
     <description>Writing cross-platform code with Nim, C and Emscripten.</description>
     <pubDate>08/05/24 21:11:51</pubDate>
+  </item>
+  <item>
+    <title>How to make compelling games?</title>
+    <link>https://vanyle.github.io/.\posts\game_design_tips.html</link>
+    <description>A game design idea concept I realized</description>
+    <pubDate>08/05/24 21:05:20</pubDate>
   </item>
   <item>
     <title>Making the computer do math</title>
@@ -71,14 +77,6 @@
     <pubDate>05/07/22 21:59:10</pubDate>
   </item>
   <item>
-    <title>		Projectile
-</title>
-    <link>https://vanyle.github.io/.\posts\projectile.html</link>
-    <description>        	The curve of a projectile based on initial angle with no velocity. The maximal height range makes a cool shape.
-</description>
-    <pubDate>05/07/22 21:58:00</pubDate>
-  </item>
-  <item>
     <title>A critique of content feeds curated by &quot;Popularity&quot;</title>
     <link>https://vanyle.github.io/.\posts\critique_of_algo_feeds.html</link>
     <description>Like a lot of people, I spend a lot of time online.</description>
@@ -93,6 +91,14 @@
     <pubDate>05/07/22 21:59:26</pubDate>
   </item>
   <item>
+    <title>		Projectile
+</title>
+    <link>https://vanyle.github.io/.\posts\projectile.html</link>
+    <description>        	The curve of a projectile based on initial angle with no velocity. The maximal height range makes a cool shape.
+</description>
+    <pubDate>05/07/22 21:58:00</pubDate>
+  </item>
+  <item>
     <title>            OuterSpace
 </title>
     <link>https://vanyle.github.io/.\posts\outerspace.html</link>
@@ -101,12 +107,12 @@
     <pubDate>04/07/22 00:37:41</pubDate>
   </item>
   <item>
-    <title>		Droplets
+    <title>	Fractalo!
 </title>
-    <link>https://vanyle.github.io/.\posts\droplets.html</link>
-    <description>			A colorful water droplet animation
+    <link>https://vanyle.github.io/.\posts\fractalo.html</link>
+    <description>	Julia style fractal renderer
 </description>
-    <pubDate>03/07/22 23:53:55</pubDate>
+    <pubDate>03/07/22 23:55:30</pubDate>
   </item>
   <item>
     <title>		ODE
@@ -115,22 +121,6 @@
     <description>			A representation of an object moving in a position/speed
 </description>
     <pubDate>03/07/22 23:57:47</pubDate>
-  </item>
-  <item>
-    <title>		Cube
-</title>
-    <link>https://vanyle.github.io/.\posts\cube.html</link>
-    <description>			A Cube rendered with a custom minimal 3d engine.
-</description>
-    <pubDate>03/07/22 23:50:17</pubDate>
-  </item>
-  <item>
-    <title>	Fractalo!
-</title>
-    <link>https://vanyle.github.io/.\posts\fractalo.html</link>
-    <description>	Julia style fractal renderer
-</description>
-    <pubDate>03/07/22 23:55:30</pubDate>
   </item>
   <item>
     <title>		Neural networks
@@ -149,12 +139,12 @@
     <pubDate>03/07/22 23:55:47</pubDate>
   </item>
   <item>
-    <title>	Game Of Life
+    <title>		Fields
 </title>
-    <link>https://vanyle.github.io/.\posts\gameoflife.html</link>
-    <description>	A game of life renderer with a random start.
+    <link>https://vanyle.github.io/.\posts\flux.html</link>
+    <description>			Ce jeu est une introduction interactive aux champs de vecteurs. Vous voilà prévenus !
 </description>
-    <pubDate>03/07/22 23:56:45</pubDate>
+    <pubDate>03/07/22 23:54:53</pubDate>
   </item>
   <item>
     <title>		Cute
@@ -165,12 +155,28 @@
     <pubDate>03/07/22 23:56:23</pubDate>
   </item>
   <item>
-    <title>		Fields
+    <title>		Cube
 </title>
-    <link>https://vanyle.github.io/.\posts\flux.html</link>
-    <description>			Ce jeu est une introduction interactive aux champs de vecteurs. Vous voilà prévenus !
+    <link>https://vanyle.github.io/.\posts\cube.html</link>
+    <description>			A Cube rendered with a custom minimal 3d engine.
 </description>
-    <pubDate>03/07/22 23:54:53</pubDate>
+    <pubDate>03/07/22 23:50:17</pubDate>
+  </item>
+  <item>
+    <title>		Droplets
+</title>
+    <link>https://vanyle.github.io/.\posts\droplets.html</link>
+    <description>			A colorful water droplet animation
+</description>
+    <pubDate>03/07/22 23:53:55</pubDate>
+  </item>
+  <item>
+    <title>	Game Of Life
+</title>
+    <link>https://vanyle.github.io/.\posts\gameoflife.html</link>
+    <description>	A game of life renderer with a random start.
+</description>
+    <pubDate>03/07/22 23:56:45</pubDate>
   </item>
 </channel>
 </rss>
