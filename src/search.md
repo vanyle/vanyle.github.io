@@ -37,8 +37,8 @@ setvar("layout",theme .. ".html")
 		}
 		for(let i = 0;i < posts.length;i++){
 			if(
-				posts[i].title.indexOf(query) !== -1 ||
-				posts[i].description.indexOf(query) !== -1
+				posts[i].title.toLowerCase().indexOf(query) !== -1 ||
+				posts[i].description.toLowerCase().indexOf(query) !== -1
 			){
 				s.push(`
 					<a href="${posts[i].url}">
