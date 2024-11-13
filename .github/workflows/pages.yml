@@ -20,6 +20,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up ASG
         run: curl -L https://github.com/vanyle/ASG/releases/download/0.0.2/asg-0.0.2-linux-amd64.tar.gz > asg.tar.gz && tar xzf asg.tar.gz
