@@ -22,3 +22,7 @@ I'm not putting the full email to avoid bot scanning it and me getting spams.
 ```python
 "delegue" + "." + "antoine" + chr(64) + "gmail.com"
 ```
+
+<!-- 100% privacy-first analytics -->
+<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>

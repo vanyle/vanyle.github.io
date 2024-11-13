@@ -55,3 +55,7 @@ setvar("layout",theme .. ".html")
 		results.innerHTML = s.join("");
 	}
 </script>
+
+<!-- 100% privacy-first analytics -->
+<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
