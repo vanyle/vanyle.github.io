@@ -1,11 +1,5 @@
 {%
-
 setvar("outfile","output/feed")
-
--- Make posts 1-indexed
-posts[#posts] = posts[0]
-posts[0] = nil
-
 table.sort(posts, orderPosts)
 
 %}
