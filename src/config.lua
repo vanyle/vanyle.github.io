@@ -31,6 +31,21 @@ function reverseDate(d)
 	return table.concat(reverse(split(d, "/")), "")
 end
 
+function keys(tab)
+	local keyset={}
+	local n=0
+
+	for k,v in pairs(tab) do
+		n=n+1
+		keyset[n]=k
+	end
+	return keyset
+end
+
+function to_string(tab)
+	return table.concat(tab, ", ")
+end
+
 function orderPosts(a, b)
 	v1 = reverseDate(timeToDate(a.created_at))
 	v2 = reverseDate(timeToDate(b.created_at))

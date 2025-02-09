@@ -13,7 +13,7 @@ table.sort(posts, orderPosts)
   <link>https://vanyle.github.io</link>
   <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
   <description>A blog about tech, cooking and random interesting things</description>
-  {% for i in pairs(posts) do %}
+  {% for i in ipairs(posts) do %}
     <item>
       <title>{{ posts[i].title }}</title>
       <link>https://vanyle.github.io/{{ posts[i].url }}</link>
