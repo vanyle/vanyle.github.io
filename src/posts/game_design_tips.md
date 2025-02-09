@@ -10,7 +10,7 @@ There is this talk I really like from Jonathan Blow about making interesting gam
 The video is long, but in summary, he talks about emerging properties of simple systems and how this emergence is what makes the systems
 of a game interesing.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/C5FUtrmO7gI?si=v5EE53Oed7d0v2A2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="350" height="200" src="https://www.youtube.com/embed/C5FUtrmO7gI?si=v5EE53Oed7d0v2A2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 This is true, but how do you create interesting systems?
 
