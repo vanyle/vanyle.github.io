@@ -1,5 +1,5 @@
-production = false -- don't forget this toggle!
-theme = "light"
+production = true -- don't forget this toggle!
+theme = "themes/modern"
 
 if production == nil then
 	setvar("livereload", "true")

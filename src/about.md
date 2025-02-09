@@ -1,6 +1,7 @@
 {%
 setvar("layout",theme .. ".html")
 title = "Antoine's blog"
+description = "Algorithms, Lifestyle, Game design"
 %}
 
 ## About me

@@ -2,19 +2,24 @@
 setvar("layout",theme .. ".html")
 %}
 
-## Search for a post
-
 <style>
 	input[type=text]#search{
 		border: none;
+		border-radius: 8px;
 		outline: none;
-		border-bottom: 3px solid #36f;
-		padding: 5px;
-		margin: 5px;
-		font-size: 1.2em;
+		display: block;
+		width: 100%;
+		padding: 8px 16px;
+		font-size: 24px;
+		font-family: "Oswald", sans-serif;
+		margin-bottom: 16px;
+	}
+	.posts{
+		background-color: transparent;
+		box-shadow: none;
 	}
 </style>
-<input id="search" placeholder="Search" type="text"/>
+<input id="search" placeholder="Search for a post" type="text"/>
 <div id="results"></div>
 
 <script>
