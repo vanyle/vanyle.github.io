@@ -3,3 +3,6 @@ output
 build
 *.code-workspace
 .noprod
+asg
+assets
+asg.exe
