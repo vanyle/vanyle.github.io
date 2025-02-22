@@ -1,9 +1,14 @@
 production = true -- don't forget this toggle!
-theme = "themes/modern"
+theme = "data/antoine_theme"
 
 function file_exists(name)
-	local f=io.open(name,"r")
-	if f~=nil then io.close(f) return true else return false end
+	local f = io.open(name, "r")
+	if f ~= nil then
+		io.close(f)
+		return true
+	else
+		return false
+	end
 end
 
 if file_exists("src/.noprod") then
@@ -42,12 +47,12 @@ function reverseDate(d)
 end
 
 function keys(tab)
-	local keyset={}
-	local n=0
+	local keyset = {}
+	local n = 0
 
-	for k,v in pairs(tab) do
-		n=n+1
-		keyset[n]=k
+	for k, v in pairs(tab) do
+		n = n + 1
+		keyset[n] = k
 	end
 	return keyset
 end

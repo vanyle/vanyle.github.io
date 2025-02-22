@@ -1,11 +1,8 @@
 {%
 setvar("layout", theme .. ".html")
 table.sort(posts, orderPosts)
-
-title = "Antoine's blog"
-description = "Algorithms, Lifestyle, Game design"
-
 %}
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 .card.post:hover{
@@ -36,6 +33,7 @@ description = "Algorithms, Lifestyle, Game design"
 
 {% for i in ipairs(posts) do %}
 <a href="{{ posts[i].url }}">
+
 <div class='card post'>
 			<h3 class='title'>
 			{{ posts[i].title }}
@@ -52,7 +50,9 @@ description = "Algorithms, Lifestyle, Game design"
 {% end %}
 
 {% if production ~= nil then %}
+
 <!-- 100% privacy-first analytics -->
 <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+
 <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
 {% end %}

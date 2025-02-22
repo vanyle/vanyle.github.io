@@ -1,0 +1,23 @@
+{%
+setvar("layout", "themes/modern.html")
+
+heads = heads or {}
+
+favicon = [[<link rel="icon" type="image/png" href="/favicon.png">]]
+heads["favicon"] = favicon
+
+google_verification = [[<meta name="google-site-verification" content="ElVFsZ6LGyKeDhlRw1EguZnrYfvuOkItNGGV_nTH-2o" />]]
+heads["google_verification"] = google_verification
+
+title = "Antoine's blog"
+description = "Algorithms, Lifestyle, Game design"
+
+%}
+
+<style>
+    p a{
+        text-decoration: underline;
+    }
+</style>
+
+{{ body }}
