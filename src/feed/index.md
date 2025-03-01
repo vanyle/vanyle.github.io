@@ -1,6 +1,12 @@
 {%
 setvar("outfile","output/feed")
-table.sort(posts, orderPosts)
+
+posts_table = {}
+for p in posts() do
+	table.insert(posts_table, p)
+end
+
+table.sort(posts_table, orderPosts)
 
 %}
 
@@ -13,12 +19,12 @@ table.sort(posts, orderPosts)
   <link>https://vanyle.github.io</link>
   <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
   <description>A blog about tech, cooking and random interesting things</description>
-  {% for i in ipairs(posts) do %}
+  {% for i in ipairs(posts_table) do %}
     <item>
-      <title>{{ posts[i].title }}</title>
-      <link>https://vanyle.github.io/{{ posts[i].url }}</link>
-      <description>{{ posts[i].description }}</description>
-      <pubDate>{{ posts[i].last_modified }}</pubDate>
+      <title>{{ posts_table[i].title }}</title>
+      <link>https://vanyle.github.io/{{ posts_table[i].url }}</link>
+      <description>{{ posts_table[i].description }}</description>
+      <pubDate>{{ posts_table[i].last_modified }}</pubDate>
     </item>
   {% end %}
 </channel>

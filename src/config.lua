@@ -1,24 +1,17 @@
 production = true -- don't forget this toggle!
 theme = "data/antoine_theme"
 
-function file_exists(name)
-	local f = io.open(name, "r")
-	if f ~= nil then
-		io.close(f)
-		return true
-	else
-		return false
-	end
-end
-
-if file_exists("src/.noprod") then
+if read_data("src/.noprod") ~= "" then
 	production = nil
 end
+
 
 
 if production == nil then
 	setvar("livereload", "true")
 	setvar("port", "8080")
+	setvar("profiler", "true")
+	setvar("debug", "true")
 end
 
 -- utils functions

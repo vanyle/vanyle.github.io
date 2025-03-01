@@ -3,21 +3,57 @@ setvar("layout", "themes/modern.html")
 
 heads = heads or {}
 
-favicon = [[<link rel="icon" type="image/png" href="/favicon.png">]]
+favicon = [[
+<link rel="icon" type="image/png" href="/favicon.png">]]
 heads["favicon"] = favicon
 
-google_verification = [[<meta name="google-site-verification" content="ElVFsZ6LGyKeDhlRw1EguZnrYfvuOkItNGGV_nTH-2o" />]]
+google_verification = [[
+<meta name="google-site-verification" content="ElVFsZ6LGyKeDhlRw1EguZnrYfvuOkItNGGV_nTH-2o" />]]
 heads["google_verification"] = google_verification
 
-title = "Antoine's blog"
 description = "Algorithms, Lifestyle, Game design"
+title = "Antoine's blog"
+
+heads["description"] = [[
+<meta name="description" content="Algorithms, Lifestyle, Game design">]]
 
 %}
 
 <style>
-    p a{
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400..800;1,400..800');
+
+    p a {
         text-decoration: underline;
+    }
+
+    .card.post:hover {
+        /*animation: wiggle 0.5s infinite;*/
+        transform: scale(1.01);
+    }
+
+    .card.post:active {
+        transform: scale(0.99);
+    }
+
+    .card p {
+        font-size: 20px;
+        font-family: "Roboto", "Arial", sans-serif;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    .card.intro p {
+        padding: 0;
     }
 </style>
 
 {{ body }}
+
+{% if production ~= nil then %}
+
+<!-- 100% privacy-first analytics -->
+<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+
+<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt=""
+        referrerpolicy="no-referrer-when-downgrade" /></noscript>
+{% end %}

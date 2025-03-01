@@ -2,7 +2,7 @@
 setvar("layout",theme .. ".html")
 %}
 
-## About me
+# About me
 
 Hi. I'm Antoine Delègue. Some guy on the internet that likes to make cool HTML animation as well as other fun programming projects.
 
@@ -21,8 +21,3 @@ I'm not putting the full email to avoid bot scanning it and me getting spams.
 ```python
 "delegue" + "." + "antoine" + chr(64) + "gmail.com"
 ```
-
-<!-- 100% privacy-first analytics -->
-<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-
-<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>

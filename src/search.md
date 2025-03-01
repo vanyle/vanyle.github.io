@@ -1,5 +1,11 @@
 {%
 setvar("layout",theme .. ".html")
+
+posts_table = {}
+for p in posts() do
+	table.insert(posts_table, p)
+end
+
 %}
 
 <style>
@@ -24,11 +30,11 @@ setvar("layout",theme .. ".html")
 
 <script>
 	let posts = [
-	{% for i in pairs(posts) do %}
+	{% for i in ipairs(posts_table) do %}
 		{
-			title: `{{ posts[i].title }}`,
-			url: `{{ string.gsub(posts[i].url,"\\","/") }}`,
-			description: `{{ posts[i].description }}`
+			title: `{{ posts_table[i].title }}`,
+			url: `{{ string.gsub(posts_table[i].url,"\\","/") }}`,
+			description: `{{ posts_table[i].description }}`
 		},
 	{% end %}
 	];
@@ -60,8 +66,3 @@ setvar("layout",theme .. ".html")
 		results.innerHTML = s.join("");
 	}
 </script>
-
-<!-- 100% privacy-first analytics -->
-<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-
-<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
