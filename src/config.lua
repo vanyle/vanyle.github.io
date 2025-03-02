@@ -1,7 +1,7 @@
 production = true -- don't forget this toggle!
 theme = "data/antoine_theme"
 
-if read_data("src/.noprod") ~= "" then
+if read_data(".noprod") ~= "" then
 	production = nil
 end
 
