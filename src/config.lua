@@ -59,3 +59,7 @@ function orderPosts(a, b)
 	v2 = reverseDate(timeToDate(b.created_at))
 	return tonumber(v1) > tonumber(v2)
 end
+
+function highlight(lang, code)
+	return "<div class='asg-code'>" .. highlight_syntax(code, lang) .. "</div>"
+end
