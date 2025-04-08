@@ -4,6 +4,8 @@
   <url>
     <loc>https://vanyle.github.io{{ string.sub(posts_table[i].url, 2) }}</loc>
     <lastmod>{{ posts_table[i].last_modified }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1</priority>
   </url>
   {% end %}
 </urlset>
