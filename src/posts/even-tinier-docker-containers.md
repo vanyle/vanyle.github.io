@@ -6,14 +6,14 @@
 *The quest to not fill up disk space continues*
 
 Hey. This article is the third from the Docker series!
-If you are interested with Docker, see:
+If you are interested in Docker, see:
 
-- [Getting started with Docker](https://vanyle.github.io/posts/docker_basics.html), an introduction to Docker compose
+- [Getting started with Docker](https://vanyle.github.io/posts/docker_basics.html), an introduction to Docker Compose
 - [Tiny Docker Big Performance](https://vanyle.github.io/posts/tiny-dockers-big-performance.html), for ways to make images smaller and faster
 
 <br>
 
-If you have been building you own Docker images, you might have experienced a Docker filling up your disk with garbage images.
+If you have been building you own Docker images, you might have experienced Docker filling up your disk with garbage images.
 While you can remove images using commands such as `docker system prune`, it would be nice to have smaller images in the first place.
 
 <br>
@@ -41,11 +41,11 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 We can take any base image, even a tiny one like alpine, and run `uv` to install Python and our requirements super quickly while minimizing
 other dependencies (as long as the `uv` binary we're fetching is linked statically using `muslc` for example).
 
-There are many useful standalone tools one can find inside Docker Image, but one i'd like to highlight is [UPX](https://upx.github.io/).
-UPX is an executable packer. It takes an executable, zips it and generates an auto-unzipping self-contained executable while shrinking the
-package size.
+There are many useful standalone tools one can find inside Docker images, but one i'd like to highlight is [UPX](https://upx.github.io/).
+UPX is an executable packer. It takes an executable, zips it and generates an auto-unzipping self-contained executable. You get an executable with
+the same features but a smaller size.
 
-While some people might consider to have a separate build stage to pack your executable with `upx`, you don't need to!
+While some people might consider having a separate build stage to pack their executable with `upx`, you don't need to!
 
 ```dockerfile
 # --- BUILD STAGE ---
@@ -74,17 +74,18 @@ FROM scratch
 COPY --from=gobuilder /myprogram /
 ENTRYPOINT ["/myprogram"]
 ```
-This makes the image even smaller, so that it contains exactly the files it needs.
+This makes the image even smaller, as that it contains exactly the files it needs.
 
-The possibilities are endless and turn Docker into a super powerful build system + package manager. Let's say you want to compress an mp4 video
-before including it into your production image.
+The possibilities are endless and turn Docker into a super powerful build system + package manager.
 
-Well, you can just grab the ffmpeg executable from an image like `jrottenberg/ffmpeg` and run it during the build stage and ship compressed videos.
+<br>
+
+Let's say you want to compress an mp4 video before including it into your production image. Well, you can just grab the ffmpeg executable from an image like `jrottenberg/ffmpeg` and run it during the build stage and ship compressed videos.
 
 ## Pin dependencies to a specific hash
 
 In many tutorials, including this one, we declare stages using tags.
-For example, we say
+For example, we say:
 ```dockerfile
 FROM golang@1.24.2
 ```
