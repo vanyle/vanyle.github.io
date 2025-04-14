@@ -1,4 +1,7 @@
-{% setvar("layout",theme .. ".html") %}
+{%
+    add_pic = true
+    setvar("layout",theme .. ".html")
+%}
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/languages/dockerfile.min.js"></script>
 
 # Even tinier and awesomer dockers images

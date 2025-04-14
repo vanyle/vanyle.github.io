@@ -50,9 +50,55 @@ heads["description"] = [[
     .card.intro p {
         padding: 0;
     }
+    .end_banner{
+        display: flex;
+        background-color: black;
+        color: white;
+        margin-bottom: -32px;
+        margin-left: -32px;
+        margin-right: -32px;
+        margin-top: 32px;
+        padding: 16px;
+        align-items: center;
+    }
+    .posts p{
+        /* Override the modern theme as sans-serif looks better */
+        font-family: "Roboto", "Arial", sans-serif;
+    }
+    .posts li{
+        font-family: "Roboto", "Arial", sans-serif;
+    }
+    .posts .end_banner .presentation{
+        padding-left: 16px;
+        font-weight: semibold;
+        font-family: "Roboto", "Arial", sans-serif;
+        font-size: 1.5em;
+    }
+    .posts .end_banner .smaller{
+        font-size: 0.8em;
+    }
+    .posts .end_banner img{
+        height: 128px;
+        width: 128px;
+        padding: 0;
+        margin: 0;
+        border-radius: 99999px;
+    }
 </style>
 
 {{ body }}
+
+{% if add_pic then %}
+
+<div class="end_banner">
+    <img src="https://gravatar.com/avatar/837df542625a45406dc6b7155e91fc24edafa1fd4ef5785a72f7049743fbd6a4?s=512"/>
+    <div class="presentation">
+        <div>About the author</div>
+        <div class="smaller"><a href="https://vanyle.github.io/about.html">Antoine Delègue is a Fullstack Software Engineer</a></div>
+    </div>
+</div>
+
+{% end %}
 
 {% if production ~= nil then %}
 
