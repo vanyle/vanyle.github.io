@@ -89,7 +89,7 @@ heads["description"] = [[
 {{ body }}
 
 {% if add_pic then %}
-
+<div id="gitalk-container"></div>
 <div class="end_banner">
     <img src="https://gravatar.com/avatar/837df542625a45406dc6b7155e91fc24edafa1fd4ef5785a72f7049743fbd6a4?s=512"/>
     <div class="presentation">
@@ -100,6 +100,23 @@ heads["description"] = [[
 
 {% end %}
 
+<!-- Comment system-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+        clientID: 'Ov23liVmU5nACW7Hf7Il',
+        // secret matters less in oauth2. At worst, you can impersonate this login system to post comments, who cares?
+        clientSecret: '122d6d3d014426a6e10c138444161987086cf848',
+        repo: 'vanyle.github.io',
+        owner: 'vanyle',
+        admin: ['vanyle'],
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false,  // Facebook-like distraction free mode
+        pagerDirection: 'last',
+    });
+    gitalk.render('gitalk-container');
+</script>
 {% if production ~= nil then %}
 
 <!-- 100% privacy-first analytics -->
