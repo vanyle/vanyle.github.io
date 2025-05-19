@@ -1,3 +1,8 @@
+{%
+add_pic = true
+setvar("layout",theme .. ".html")
+%}
+
 # Monorepos for frontend, are they worth it?
 *Short answer, it depends, probably not*
 
