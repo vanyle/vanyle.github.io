@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%
+  posts_table = {}
+  for p in posts() do
+    table.insert(posts_table, p)
+  end
+
+  table.sort(posts_table, orderPosts)
+%}
+
   {% for i in ipairs(posts_table) do %}
   <url>
     <loc>https://vanyle.github.io{{ string.sub(posts_table[i].url, 2) }}</loc>
