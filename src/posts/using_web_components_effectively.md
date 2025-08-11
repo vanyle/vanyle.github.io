@@ -335,6 +335,6 @@ Web components are a really cool API that allow all frontend developers to acces
 They are really verbose by default, but are flexible. 
 You should use them together with another library to enjoy declarative UI, like Lit.
 
-Consider staring [VUI](https://github.com/vanyle/vui), I would really appreciate it!
+Consider staring ⭐ [VUI](https://github.com/vanyle/vui), I would really appreciate it!
 
-You can use VUI, it is tested, documented and has simple storybooks example to learn from.
+You can use VUI in productin, it is tested, documented and has simple storybook examples to learn from.
