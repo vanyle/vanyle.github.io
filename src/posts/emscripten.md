@@ -49,7 +49,7 @@ that is interpreted by the browser. LuaJIT does not support generating this kind
 So I decided to use regular Lua for the web. This is slower as the language is fully interpreted, but it's good enough. Because Nim supports arbitrary compile-time
 execution, I wrote a tiny build-system in Nim that compiles Lua when the `emscripten` or the `noJit` flag is provided and links Lua against Nim.
 
-Lua is small and only consist of about 30 files. So I store their path in an array and loop over it to compile everthing.
+Lua is small and only consist of about 30 files. So I store their path in an array and loop over it to compile everything.
 
 Lua 5.1 and LuaJIT behave exactly the same in my tests, so I can write the same scripts and have the same behavior on the web and the desktop!
 
@@ -79,7 +79,7 @@ There were a few other smaller issues I encountered that were easily fixed.
 
 First, opening links. When a player clicks on the credits, I want to open a tab in his browser to show them a page about me. In C, I can call `ShellExecuteA` or `xdg-open` depending on the platform. On the web, I wrote a JavaScript bridge and once in JavaScript, opening a tab is trivial.
 
-Second, getting an accurate time. For simulating physics accuratly, I need to get the time with as much precision as possible. Thankfully emscripten already provides a function for that, `emscripten_get_now`, so I used it.
+Second, getting an accurate time. For simulating physics accurately, I need to get the time with as much precision as possible. Thankfully emscripten already provides a function for that, `emscripten_get_now`, so I used it.
 
 Finally, I was ready to compile!
 

@@ -36,7 +36,7 @@ function MyCounter({ startingCount }: { startingCount: number }){
   );
 ```
 
-> I'm using typescript thoughout this article for readability, but this would work just as well in regular JavaScript.
+> I'm using typescript throughout this article for readability, but this would work just as well in regular JavaScript.
 
 ## Web components from scratch
 
@@ -173,7 +173,7 @@ This is why I built [VUI](https://github.com/vanyle/vui). VUI is extremely simil
 
 > The next few paragraphs are just an ad for VUI. But come on, how can you not love this tiny vanillaesque bit of JS 😊
 
-VUI provides 2 concepts that are othogonal a.k.a you can use one without using the other.
+VUI provides 2 concepts that are orthogonal a.k.a you can use one without using the other.
 <br><br>
 ### The `VUI.Component` class
 
@@ -267,7 +267,7 @@ class MyCounter extends VUI.Component {
 Notice that the `render()` function returns the HTML and does not call `innerHTML`. This is because, like React, we perform a diff between
 the old DOM and the new DOM during rerenders so that focus and selections and preserved when rendering.
 
-And because the syntax is similar to Lit, the VSCode extension for Lit can be used for Vui.
+And because the syntax is similar to Lit, the VSCode extension for Lit can be used for VUI.
 
 This allowed us to switch to a declarative way of writing UIs that is more productive, without having to refactor all our code to switch to a new import system.
 <br><br>
@@ -303,9 +303,9 @@ class SomeComponent extends VUI.Component{
 
 If we set `showA` to `true` and `showB` to `false`, should we keep the cursor focused on the input?
 
-Should the resoluting `input` element in the DOM be the same object, or should it we a new freshly created `input`?
+Should the resulting `input` element in the DOM be the same object, or should it we a new freshly created `input`?
 
-Well, just like in React, the `data-key` attribute can help. If two elements have the same key (and tagname!) between rerenders, VUI considers them to be the same and reuses the element.
+Well, just like in React, the `data-key` attribute can help. If two elements have the same key (and tag name!) between rerenders, VUI considers them to be the same and reuses the element.
 
 You might already know that having a `key` is a best practice when rendering lists in React as in that case, you have a lot of elements with the same tag name. You usually want to reorder these elements between rerenders instead of creating them all from scratch for performance and to preserve selections.
 
@@ -337,4 +337,4 @@ You should use them together with another library to enjoy declarative UI, like 
 
 Consider staring ⭐ [VUI](https://github.com/vanyle/vui), I would really appreciate it!
 
-You can use VUI in productin, it is tested, documented and has simple storybook examples to learn from.
+You can use VUI in production, it is tested, documented and has simple storybook examples to learn from.

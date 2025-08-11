@@ -1,4 +1,5 @@
 {%
+add_pic = false
 setvar("layout", theme .. ".html")
 posts_table = {}
 for p in posts() do

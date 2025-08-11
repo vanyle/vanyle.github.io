@@ -128,8 +128,6 @@ There is a lot of Rust code online, so the LLMs know the functions well and can 
 
 The LLM will fail as soon as it needs to do something non-trivial, for example when doing using a new crate in the project for the first time, but they can help for repetitive tasks, refactoring and finding issues like unnecessary clones and typos.
 
-### 
-
 ## The bad
 
 ### Violating the Convention on Human Rights and Biomedicine
@@ -148,7 +146,7 @@ Of course, you can spend time in Rust to use the best type for the job and beat 
 
 Anyway, It is not a big issue, just an annoyance. The code still works and has similar performance to the Nim code. Optimizing it will be a goal for future me.
 
-Also, the fact that `String` must hold UTF-8 is silly. In ASG, I regularely convert `PathBuf` to `String` and doing `to_string_lossy()` feels useless. `String` should just be an alias to `Vec<u8>` with a dedicated type for `UTF-8`.
+Also, the fact that `String` must hold UTF-8 is silly. In ASG, I regularly convert `PathBuf` to `String` and doing `to_string_lossy()` feels useless. `String` should just be an alias to `Vec<u8>` with a dedicated type for `UTF-8`.
 
 A type named `String` will be used everywhere as devs are used to it from other languages, so it makes sense to have something close to `std::string` from C++, `string` from Nim.
 

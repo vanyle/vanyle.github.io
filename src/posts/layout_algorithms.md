@@ -1,6 +1,9 @@
 {%
 setvar("layout",theme .. ".html")
+add_pic = true
 %}
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/languages/nim.min.js"></script>
+
 # Layout Algorithms
 *A story about shuffling rectangles around*
 

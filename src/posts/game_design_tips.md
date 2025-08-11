@@ -8,7 +8,7 @@ setvar("layout",theme .. ".html")
 There is this talk I really like from Jonathan Blow about making interesting games.
 
 The video is long, but in summary, he talks about emerging properties of simple systems and how this emergence is what makes the systems
-of a game interesing.
+of a game interesting.
 
 <iframe width="350" height="200" src="https://www.youtube.com/embed/C5FUtrmO7gI?si=v5EE53Oed7d0v2A2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
@@ -70,7 +70,7 @@ Every card represent 1 gold. Everybody starts with 1 gold. The first player to 5
 While it has a bit of complexity because you can interact with other player to form alliances, it is boring because the state space is very small.
 Every player can have between 0 and 4 cards, so the state space is 20 (or even less if you assume players are indistinguishable).
 
-But if you change the game so that 1 card represent as much gold as the number of it (Jack = 11, Queen = 12, King = 13), and the goal is to at least reach 30 but not exceed 40, the state space increases a lot as cards are no longer indistinguisable and the game becomes a more strategic and interesting (as you can lie about your card count and still make strategies)
+But if you change the game so that 1 card represent as much gold as the number of it (Jack = 11, Queen = 12, King = 13), and the goal is to at least reach 30 but not exceed 40, the state space increases a lot as cards are no longer indistinguishable and the game becomes a more strategic and interesting (as you can lie about your card count and still make strategies)
 
 The game is still not great as every player only has a few options every turn but it could be the start of the rules of an interesting card game.
 
@@ -80,7 +80,7 @@ In the first game, if we want to add rules, we can only put the amount of gold t
 
 # Applying what we learn to video games
 
-When making single player videogames, we cannot use other players as design elements so making a game with interesting gameplay is harder, but we can reuse the previous concepts:
+When making single player video games, we cannot use other players as design elements so making a game with interesting gameplay is harder, but we can reuse the previous concepts:
 
 - Have a large state space
 - Always offer multiple non-trivial options to the player
@@ -111,7 +111,7 @@ When designing games, start by choosing a state space. If you find that your gam
 
 Ideas that can work to increase state space:
 
-- Adding a status/powerup effect system to players / units / enemies.
+- Adding a status/power-up effect system to players / units / enemies.
 - Adding an inventory system
 - Adding another dimension (rarely works but still listed)
 - Add a way of combining existing elements (item crafting, enemies merging, combos in fighting games, etc...)

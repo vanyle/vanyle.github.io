@@ -50,20 +50,20 @@ When first browsing the site, you find this awesome as you get to learn a lot an
 domains, this gets tiresome quite quickly.
 
 With RSS feeds, while the individual article might look less appealing, because you are following the 
-same people, they provide new insights everytime (as long as they don't repeat themselves), and in the
+same people, they provide new insights every time (as long as they don't repeat themselves), and in the
 long run, you are more satisfied with the content you consume and you discover non-mainstream topics
 that rarely appear on more common popularity feeds.
 
-Another perverse effect of popularity feeds (eventhough this is more true of algorithmic feeds specifically
+Another perverse effect of popularity feeds (even though this is more true of algorithmic feeds specifically
 which are a specific kind of popularity feed.) is that they tend to always show new content when you reload the
 page. In the new reload field, there is a mix of old previously seen content and new stuff.
 
 This creates a gambling machine like effect as your refresh the page multiple time in order to access the new stuff.
 And not only you miss content that might have interested you because of the algorithm, but you spend more time
-on the website searching for the content you are truely interested in.
+on the website searching for the content you are truly interested in.
 Moreover, the randomness of the reward increases the odds of being addicted to the website (based on research performed
 on rats with random rewards when pressing a button, go google it yourself)
 
-All in all, I know that everybody is not able to stay focused all the time and we all need some mindnumbing distraction.
+All in all, I know that everybody is not able to stay focused all the time and we all need some mind numbing distraction.
 Well, if you want to have a feed as this distraction, I'd recommend you not to pick an popularity based feed but a recency based
 one. Check the table above for some example of recency based feeds (RSS in particular is quite neat!) 
