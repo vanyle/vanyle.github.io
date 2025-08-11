@@ -54,7 +54,6 @@ heads["description"] = [[
         display: flex;
         background-color: black;
         color: white;
-        margin-bottom: -32px;
         margin-left: -32px;
         margin-right: -32px;
         margin-top: 32px;
@@ -67,6 +66,13 @@ heads["description"] = [[
     }
     .posts li{
         font-family: "Roboto", "Arial", sans-serif;
+    }
+    .posts {
+        display: flex;
+        flex-direction: column;
+    }
+    .posts .grow {
+        flex-grow: 1;
     }
     .posts .end_banner .presentation{
         padding-left: 16px;
@@ -90,6 +96,7 @@ heads["description"] = [[
 
 {% if add_pic then %}
 <div id="gitalk-container"></div>
+<div class="grow"></div>
 <div class="end_banner">
     <img src="https://gravatar.com/avatar/837df542625a45406dc6b7155e91fc24edafa1fd4ef5785a72f7049743fbd6a4?s=512"/>
     <div class="presentation">
