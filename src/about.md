@@ -1,5 +1,6 @@
 {%
 setvar("layout",theme .. ".html")
+add_pic = false
 %}
 
 # About me
