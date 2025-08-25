@@ -12,17 +12,19 @@ google_verification = [[
 heads["google_verification"] = google_verification
 
 description = "Algorithms, Lifestyle, Game design"
-title = "Antoine's blog"
+title = [[<a href="/">Antoine's blog</a>]]
 
 heads["description"] = [[
-<meta name="description" content="Algorithms, Lifestyle, Game design" />]]
+<meta name="description" content="Algorithms, Lifestyle, Game design" />
+]]
 
 %}
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400..800;1,400..800');
 
-    p a, li a {
+    p a,
+    li a {
         text-decoration: underline;
     }
 
@@ -50,12 +52,12 @@ heads["description"] = [[
     .card.intro p {
         padding: 0;
     }
-    
-    .posts:has(> .card) .end_banner{
+
+    .posts:has(> .card) .end_banner {
         margin-bottom: 32px;
     }
-    
-    .end_banner{
+
+    .end_banner {
         display: flex;
         background-color: black;
         color: white;
@@ -65,24 +67,29 @@ heads["description"] = [[
         padding: 16px;
         align-items: center;
     }
-    .posts p{
+
+    .posts p {
         /* Override the modern theme as sans-serif looks better */
         font-family: "Roboto", "Arial", sans-serif;
     }
-    .posts li{
+
+    .posts li {
         font-family: "Roboto", "Arial", sans-serif;
     }
+
     .posts {
         display: flex;
         flex-direction: column;
     }
-    .posts blockquote{
+
+    .posts blockquote {
         border-radius: 8px;
         background-color: #36f;
-        color:white;
+        color: white;
         padding: 8px;
         margin: 16px 8px;
     }
+
     .posts .grow {
         flex-grow: 1;
     }
@@ -95,16 +102,18 @@ heads["description"] = [[
         color: #000;
     }
 
-    .posts .end_banner .presentation{
+    .posts .end_banner .presentation {
         padding-left: 16px;
         font-weight: semibold;
         font-family: "Roboto", "Arial", sans-serif;
         font-size: 1.5em;
     }
-    .posts .end_banner .smaller{
+
+    .posts .end_banner .smaller {
         font-size: 0.8em;
     }
-    .posts .end_banner img{
+
+    .posts .end_banner img {
         height: 128px;
         width: 128px;
         padding: 0;
@@ -119,10 +128,11 @@ heads["description"] = [[
 <div id="gitalk-container"></div>
 <div class="grow"></div>
 <div class="end_banner">
-    <img src="https://gravatar.com/avatar/837df542625a45406dc6b7155e91fc24edafa1fd4ef5785a72f7049743fbd6a4?s=512"/>
+    <img src="https://gravatar.com/avatar/837df542625a45406dc6b7155e91fc24edafa1fd4ef5785a72f7049743fbd6a4?s=512" />
     <div class="presentation">
         <div>About the author</div>
-        <div class="smaller"><a href="https://vanyle.github.io/about.html">Antoine Delègue is a Fullstack Software Engineer</a></div>
+        <div class="smaller"><a href="https://vanyle.github.io/about.html">Antoine Delègue is a Fullstack Software
+                Engineer</a></div>
     </div>
 </div>
 
