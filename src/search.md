@@ -30,6 +30,12 @@ end
 <div id="results"></div>
 
 <script>
+	const search = document.getElementById("search");
+
+	addEventListener('load', () => {
+		search.focus();
+	});
+
 	let posts = [
 	{% for i in ipairs(posts_table) do %}
 		{
