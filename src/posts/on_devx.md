@@ -13,7 +13,7 @@ improving their work environment to be more productive in the long run.
 Developer experience and developer productivity are two very intertwined concepts. You invest in the first to
 improve the second.
 
-Better productivity does not just mean shipping features faster. It also means happier developpers that spend more time
+Better productivity does not just mean shipping features faster. It also means happier developers that spend more time
 adding features than solving obscure issues.
 
 In this article, I'll try to outline a few techniques and practices that tend to improve productivity.
@@ -31,10 +31,10 @@ flowchart LR
     code --> compile --> result --> code
 ```
 
-This is what software engineer do a lot of the time. Write code, wait for deployment or compiling or any other automated step and see the result to know if what you did was correct.
-By carefully planning and thinking about what you are doing, you can reduce the number of loops, but at some point, to understand a complex system like most software, you need to poke it and see how it reacts.
+This is what software engineers do a lot of the time. Write code, wait for deployment or compilation or any other automated step and see the result to know if what they did was correct.
+By carefully planning and thinking about what you are doing, you can reduce the number of loops, but at some point, to understand a complex system (what most software is), you need to poke it and see how it reacts.
 
-This means that reducing the time of this loop is crucial to be productive. The more experiments you can do, the more information you can gather about your system.
+Reducing the time of this loop is crucial to be productive. The more experiments you can do, the more information you can gather about your system.
 
 Concretely this means you need to put a lot of effort into:
 - Reducing compile times
@@ -43,8 +43,8 @@ Concretely this means you need to put a lot of effort into:
 
 ## Strong typing
 
-The more I program, the more I realize the importance of types, and having types that describe accuratly all the states that a system is allowed to have.
-Let's say you are writing an function takes a color as an argument. You want to be able to express that you need a color, "null" is not a color.
+The more I program, the more I realize the importance of types. Types need to accurately describe all the states a system is allowed to have.
+Let's say you are writing an function takes a color as an argument. You want to be able to express that you need a color. "null" is not a color.
 
 This is different from a function that can take a color as an argument, but does not need to.
 
@@ -58,22 +58,24 @@ pub fn set_color_or_use_default(c: Option<Color>){
 }
 ```
 
-I prefer language that allow you to express this find of distinction. Languages like Rust, Go, Typescript, Scala, Nim, or even to some extent Python with a type-checker.
+I prefer languages that allow you to express this find of distinction. Languages like Rust, Go, Typescript, Scala, Nim, or even to some extent Python with a type-checker.
 This is also why I dislike languages like Javascript, Java or C.
 
 Because you can communicate a lot of information to the reader just using a function signature, you are effectively writing self-enforcing documentation about your APIs.
 
 This also makes the language more readable and improves your productivity. Instead of needing a full feedback loop to realize that you mistakenly passed an invalid argument to a function and get a runtime error, your text editor can instantly tell you something is wrong.
 
-Sometimes, it's even better: as your are writing the incorrect code, Copilot suggests a correct alternative.
+Sometimes, it's even better: as your are writing some incorrect code, Copilot suggests a correct alternative, because Copilot sees the types and can correctly infer your intent.
 
 ## Documentation
 
-Documentation 📚 explains how your APIs work, what they do and why they do it. As code grows in complexity and team size increases, having a functional documentation becomes ever more important. Paradoxically, as the team grows, maintaining an up-to-date documentation becomes more challenging.
+Documentation 📚 explains how your APIs work, what they do and why they do it.
+As code grows in complexity and team size increases, having a functional documentation becomes ever more important.
+Paradoxically, as the team grows, maintaining an up-to-date documentation becomes more challenging:
 
-People forget it exists, and don't read or write it.
+People forget it exists, and don't read or correct it.
 
-To alleviate this issue, keep developper the documentation as close to the code as possible.
+To alleviate this issue, keep developer documentation as close to the code as possible.
 
 This can mean Markdown files in your repository, documentation comments or storybooks.
 
@@ -95,9 +97,9 @@ Then such a case is eventually reached, maybe because an assumption you made cha
 
 <br>
 
-Let's take an example. I was working on a server which needed to connect to a database at startup.
-If I forgot to connect to my VPN, the server would be unable to contact the database, but a helpful "Cannot reach the database", it throw an exception in
-an unrelated part of the code because of an object which normally came from the database being null.
+Let's take an example. I was working on a server which needed to connect to a database when starting.
+If I forgot to connect to my VPN, the server would be unable to contact the database, but instead of a helpful "Cannot reach the database" message, it threw an exception in
+an unrelated part of the code because of an object (which normally was initialized using from the database) being null.
 
 <br>
 
