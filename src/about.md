@@ -14,11 +14,17 @@ you to try out new ideas.
 
 If you're really bored and you've already played around with all the stuff on this website, I suggest you checkout my non-HTML projects on my [GitHub](https://github.com/vanyle)
 
-If you want to hire me, you can also reach out at [my LinkedIn](https://www.linkedin.com/in/d-antoine/).
+You can reach my on [LinkedIn](https://www.linkedin.com/in/d-antoine/).
 
-You can contact me at the following email (just run the code below in a python interpreter):
-I'm not putting the full email to avoid bot scanning it and me getting spams.
+You can also contact me at the following email (just run the code below in a python interpreter):
+
+{%
+-- The input string was generated using:
+-- s = ".".join([chr(c+1) for c in base64.b64encode(bytes(e,'utf8'))])
+-- Where e is my mail.
+%}
 
 ```python
-"delegue" + "." + "antoine" + chr(64) + "gmail.com"
+s = "[.H.W.t.[.X.e.2.[.T.6.i.c.o.S.w.b.X.6.m.R.H.e.u.Z.X.m.t.M.n.O.w.c.R.>.>"
+import base64; print(base64.b64decode(bytearray([ord(i)-1 for i in s.split(".")])).decode("utf8"))
 ```
