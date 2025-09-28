@@ -16,14 +16,15 @@ table.sort(posts_table, orderPosts)
 <channel>
   <title>Antoine's blog</title>
   <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+  <generator>ASG</generator>
   <link>https://vanyle.github.io</link>
-  <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
   <description>A blog about tech, cooking and random interesting things</description>
   {% for i in ipairs(posts_table) do %}
     <item>
       <title>{{ posts_table[i].title }}</title>
       <link>https://vanyle.github.io/{{ posts_table[i].url }}</link>
       <description>{{ posts_table[i].description }}</description>
+      <guid>https://vanyle.github.io/{{ posts_table[i].url }}</guid>
       <pubDate>{{ posts_table[i].last_modified }}</pubDate>
     </item>
   {% end %}
