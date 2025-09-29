@@ -25,7 +25,7 @@ table.sort(posts_table, orderPosts)
       <link>https://vanyle.github.io/{{ posts_table[i].url }}</link>
       <description>{{ posts_table[i].description }}</description>
       <guid>https://vanyle.github.io/{{ posts_table[i].url }}</guid>
-      <pubDate>{{ posts_table[i].last_modified }}</pubDate>
+      <pubDate>{{ to_rfc2822_date(posts_table[i].last_modified) }}</pubDate>
     </item>
   {% end %}
 </channel>
