@@ -495,6 +495,8 @@ If you are working on an older project which uses `AMD` or `UMD`, it means that 
 
 ## Sources
 
+<div style="overflow-x: auto;">
+
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
 - https://rslib.rs/guide/basic/output-format
 - https://nodejs.org/api/modules.html
@@ -502,3 +504,5 @@ If you are working on an older project which uses `AMD` or `UMD`, it means that 
 - https://www.youtube.com/watch?v=W5CXzo4TZVU
 - https://www.typescriptlang.org/docs/handbook/modules/theory.html#the-module-output-format
 - https://requirejs.org/
+
+</div>
