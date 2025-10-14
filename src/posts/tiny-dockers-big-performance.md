@@ -9,18 +9,18 @@ setvar("layout",theme .. ".html")
 
 *How to build apps that are quick to deploy to enhance your productivity*
 
-I am a big believer in a quality developper experience. The faster you can iterate on a
-solution, the better the solution you can come up with. Every tool that detects trivial bugs like typecheckers and linters are big time savers. And the less time you spend compiling, waiting around for CI and other tools, the more time you have to do interesting work.
+I am a big believer in a quality developer experience. The faster you can iterate on a
+solution, the better the solution you can come up with. Every tool that detects trivial bugs like a typechecker and a linter, is a big time saver. The less time you spend compiling, waiting around for CI and other tools, the more time you have to do interesting work.
 
 After having spent time with Docker, experienced the gigabytes eaten for every image and the long minutes spent building containers only to find a failing step, I decided it was time to learn how to do Docker *the right way*.
 
 ## Choosing the right technologies
 
-On my new project, [Aiguillage](https://github.com/vanyle/aiguillage), I knew I wanted to have the very best DevX possible as well as learn new tools. It is a very classic project with a frontend, a backend and a database. The backend mostly does CRUD request with the database.
+On my new project, [Aiguillage](https://github.com/vanyle/aiguillage), I knew I wanted to have the very best DevX possible as well as learn new tools. It is a very classic project with a frontend, a backend, and a database. The backend mostly does CRUD request with the database.
 
 I went with Go as it is able to build static executables without any dependencies.
 
-What is nice with Go is that your Go code can serve the static assets as it is efficient, not like a Flask, Django or Rails backend, which simplifies your app as you can put everything in one container. 
+What is nice with Go is that your Go code can serve the static assets as it is efficient, not like a Flask, Django, or Rails backend, which simplifies your app as you can put everything in one container. 
 
 For the database, to keep everything self-contained, I choose SQLite. We'll see later that it complicates things slightly but having one slim docker is still possible.
 
@@ -142,7 +142,7 @@ This makes for a great experience as when I want to deploy the image for testing
 So, what are the takeaways?
 
 First, Go is great for medium size projects. The tooling as awesome, there are a lot of libraries availables and the performance is good. The biggest
-shortcoming of Go is how interoperability for C libraries can be annoying, expecially, if, like me, you switch OS a lot (I use Windows, MacOS and Linux at least one a week).
+shortcoming of Go is how interoperability for C libraries can be annoying, expecially, if, like me, you switch OS a lot (I use Windows, MacOS, and Linux at least one a week).
 
 Moreover, Go lacks expressivity and I'd prefer having a language like Typescript or Nim where I can represent errors like Option types rather than the constant idiom:
 
