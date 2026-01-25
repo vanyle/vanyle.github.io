@@ -7,12 +7,16 @@
   end
 
   table.sort(posts_table, orderPosts)
+
+  function replace(str, old, new)
+    return (str:gsub(old, new))
+  end
 %}
 
   {% for i in ipairs(posts_table) do %}
   <url>
     <loc>https://vanyle.github.io{{ string.sub(posts_table[i].url, 2) }}</loc>
-    <lastmod>{{ posts_table[i].last_modified }}</lastmod>
+    <lastmod>{{ replace(split(posts_table[i].last_modified, " ")[1], "/", "-") }}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1</priority>
   </url>
