@@ -1,6 +1,7 @@
 {%
 setvar("layout",theme .. ".html")
 add_pic = true
+page_title = "What's the deal with JavaScript Modules?"
 %}
 # What's the deal with JavaScript Modules?
 *What do AMD, CommonJS or ESM even mean?*

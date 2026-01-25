@@ -12,7 +12,7 @@ google_verification = [[
 heads["google_verification"] = google_verification
 
 description = "Algorithms, Lifestyle, Game design"
-title = "Antoine's blog"
+title = title or "Antoine's blog"
 
 heads["description"] = [[
 <meta name="description" content="Algorithms, Lifestyle, Game design" />
@@ -119,6 +119,45 @@ heads["description"] = [[
         padding: 0;
         margin: 0;
         border-radius: 99999px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: separate;
+        /* Important for rounded corners with borders */
+        border-spacing: 0;
+        border: 1px solid #e2e8f0;
+        /* Light gray border */
+        border-radius: 8px;
+        box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+        overflow: hidden;
+        /* Clips the header to the rounded corners */
+        margin: 25px 0;
+    }
+
+    table thead tr {
+        background-color: #36f;
+        color: #ffffff;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    table th,
+    table td {
+        padding: 15px;
+    }
+
+    table tbody tr {
+        border-bottom: 1px solid #edf2f7;
+    }
+
+    table tbody tr:hover {
+        background-color: #f1f5f9;
+        transition: background-color 0.2s ease;
+    }
+
+    table tr:last-child td {
+        border-bottom: none;
     }
 </style>
 
