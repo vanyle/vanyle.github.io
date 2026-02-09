@@ -202,4 +202,22 @@ heads["description"] = [[
 
 <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt=""
         referrerpolicy="no-referrer-when-downgrade" /></noscript>
+
+
+<!-- Totally not analytics, don't worry about it. -->
+<script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function () {
+        var u = "https://build-with-ai-for-non-tech.matomo.cloud/";
+        _paq.push(['setTrackerUrl', u + 'matomo.php']);
+        _paq.push(['setSiteId', '3']);
+        var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+        g.async = true; g.src = 'https://cdn.matomo.cloud/build-with-ai-for-non-tech.matomo.cloud/matomo.js'; s.parentNode.insertBefore(g, s);
+    })();
+</script>
+<!-- End Matomo Code -->
+
+
 {% end %}
