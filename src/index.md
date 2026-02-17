@@ -13,8 +13,8 @@ page_title = "Facteer Blog"
 
 <div class='card intro'>
 	<p>Hey! You there, reading this, welcome to my blog! 🎉</p>
-	<p>I'm Antoine, I <s>rarely</s> sometimes post articles
-	about programming, making games, or just general throughts.</p>
+	<p>I'm Antoine (also known online as <b>vanyle</b>), I <s>rarely</s> sometimes post articles
+	about programming, making games (and game engines), or just general thoughts.</p>
 	<p>I try to present things that are rarely talked about
 	online, provide a fresh perspective on topics or write concise explainers.</p>
 </div>
