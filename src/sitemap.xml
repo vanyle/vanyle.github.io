@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{%
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> {%
   posts_table = {}
   for p in posts() do
     table.insert(posts_table, p)
@@ -11,14 +10,15 @@
   function replace(str, old, new)
     return (str:gsub(old, new))
   end
+  -- https://www.w3.org/TR/NOTE-datetime
+  -- The format needs to be YYYY-MM-DD
 %}
-
-  {% for i in ipairs(posts_table) do %}
+{% for i in ipairs(posts_table) do
+  date = split(split(posts_table[i].last_modified, " ")[1], "/") %}
   <url>
     <loc>https://blog.facteer.com{{ string.sub(posts_table[i].url, 2) }}</loc>
-    <lastmod>{{ replace(split(posts_table[i].last_modified, " ")[1], "/", "-") }}</lastmod>
+    <lastmod>{{ date[3] }}-{{ date[2] }}-{{ date[1] }}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1</priority>
   </url>
-  {% end %}
-</urlset>
+{% end %}</urlset>
