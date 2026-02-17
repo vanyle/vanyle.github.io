@@ -217,7 +217,7 @@ I have a simple (also written in Nim) implementation of Segment trees with decen
 
 [Implementation](https://github.com/vanyle/RangeQueriesNim/blob/master/src/rangequeries.nim)
 
-[Documentation](https://vanyle.github.io/RangeQueriesNim/rangequeries.html)
+[Documentation](https://blog.facteer.com/RangeQueriesNim/rangequeries.html)
 
 The idea is that you can store your data as a binary tree (with leaves containing the values of the segment tree) and by storing at every node the result of the associative operation on all the children.
 

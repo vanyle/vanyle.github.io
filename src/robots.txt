@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /search.html
 
-Sitemap: https://vanyle.github.io/sitemap.xml
+Sitemap: https://blog.facteer.com/sitemap.xml

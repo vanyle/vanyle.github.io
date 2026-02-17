@@ -11,8 +11,8 @@
 Hey. This article is the third from the Docker series!
 If you are interested in Docker, see:
 
-- [Getting started with Docker](https://vanyle.github.io/posts/docker_basics.html), an introduction to Docker Compose
-- [Tiny Docker Big Performance](https://vanyle.github.io/posts/tiny-dockers-big-performance.html), for ways to make images smaller and faster
+- [Getting started with Docker](https://blog.facteer.com/posts/docker_basics.html), an introduction to Docker Compose
+- [Tiny Docker Big Performance](https://blog.facteer.com/posts/tiny-dockers-big-performance.html), for ways to make images smaller and faster
 
 <br>
 

@@ -7,7 +7,7 @@ for p in posts() do
 end
 
 table.sort(posts_table, orderPosts)
-page_title = "Antoine's Blog"
+page_title = "Facteer Blog"
 %}
 
 
