@@ -1,6 +1,7 @@
 {%
 setvar("layout",theme .. ".html")
 add_pic = true
+page_title = "Layout Algorithms"
 %}
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/languages/nim.min.js"></script>
 

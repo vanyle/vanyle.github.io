@@ -1,6 +1,7 @@
 {%
 add_pic = true
 setvar("layout",theme .. ".html")
+page_title = "About Developer Experience"
 %}
 
 # Let's talk about Dev Ex
